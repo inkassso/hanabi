@@ -1,0 +1,15 @@
+<h2>Game</h2>
+<div *ngIf="logic; else gameLoading">
+  <div *ngFor="let player of logic.players" [class.highlight]="player === logic.activePlayer">
+    <h3>{{player.name}}</h3>
+    <p>Cards:</p>
+    <ul>
+      <li *ngFor="let card of player.cards">
+        <strong class="card" [class]="getCardClasses(card)">{{card.color}} {{card.number}}</strong>
+      </li>
+    </ul>
+  </div>
+</div>
+<ng-template #gameLoading>
+  <h1>Loading...</h1>
+</ng-template>
