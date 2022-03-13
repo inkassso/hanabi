@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Card, cardColors, isColorful } from './card';
 import { GameLogic } from './logic';
 import { Player } from './player';
@@ -12,8 +13,11 @@ export class GameComponent implements OnInit {
 
   logic?: GameLogic;
 
+  constructor(private toastr: ToastrService) { }
+
   ngOnInit(): void {
     this.logic = new GameLogic(['Lucas', 'George', 'Hayden', 'Ewan']);
+    this.logic.error$.subscribe(e => e && this.toastr.error(e.message))
   }
 
   getCardBackgroundClass(player: Player, card: Card): string {

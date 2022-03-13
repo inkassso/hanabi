@@ -1,3 +1,4 @@
+import { BehaviorSubject } from "rxjs";
 import { IAction } from "./actions";
 import { DiscardPile } from "./discard-pile";
 import { DrawDeck } from "./draw-deck";
@@ -15,6 +16,8 @@ const playerSettings = {
 };
 
 export class GameLogic {
+
+  error$ = new BehaviorSubject<Error | undefined>(undefined);
 
   private drawDeck = new DrawDeck();
   private discardPile = new DiscardPile();
@@ -47,7 +50,7 @@ export class GameLogic {
     this.players = playerNames.map(name => new Player(name, this.drawDeck.drawCards(cardsToDraw)));
 
     for (const player of this.players) {
-      player.action$.subscribe(action => this.executePlayerAction(action));
+      player.action$.subscribe(action => this.failSafe(() => this.executePlayerAction(action)));
     }
   }
 
@@ -65,5 +68,14 @@ export class GameLogic {
 
   private nextPlayerTurn(): void {
     this.playerOnTurn = (this.playerOnTurn + 1) % this.players.length;
+  }
+
+  failSafe<T>(action: () => T): T | undefined {
+    try {
+      return action();
+    } catch (e) {
+      this.error$.next(e as Error); // TODO configure eslint
+    }
+    return undefined;
   }
 }
