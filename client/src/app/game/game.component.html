@@ -13,20 +13,22 @@
           [class]="getCardBackgroundClass(player, card)">
           <ng-container *ngIf="player === logic.activePlayer; else otherPlayersContent">
             <strong class="description">Card</strong>
-            <button class="btn btn-sm btn-light action" (click)="player.discardCard(card)">Discard</button>
-            <button class="btn btn-sm btn-light action" (click)="player.playCard(card)">Play</button>
+            <button class="btn btn-sm btn-primary action" (click)="player.playCard(card)">Play</button>
+            <button class="btn btn-sm btn-secondary action" (click)="player.discardCard(card)">Discard</button>
           </ng-container>
 
           <ng-template #otherPlayersContent>
             <strong class="description">{{card.color}} {{card.number}}</strong>
 
-            <button class="btn btn-sm btn-light action" *ngIf="!isColorful(card.color); else allColorActions"
+            <button class="btn btn-sm btn-primary action" *ngIf="!isColorful(card.color); else allColorActions"
               (click)="logic.activePlayer.giveHint(player, card, card.color)">Hint color {{card.color}}</button>
             <ng-template #allColorActions>
-              <button class="btn btn-sm btn-light action" *ngFor="let color of allSingleColors"
-                (click)="logic.activePlayer.giveHint(player, card, color)">Hint {{color}}</button>
+              <div class="d-flex flex-column">
+                <button *ngFor="let color of allSingleColors" class="btn btn-sm btn-primary action"
+                  (click)="logic.activePlayer.giveHint(player, card, color)">Hint {{color}}</button>
+              </div>
             </ng-template>
-            <button class="btn btn-sm btn-light action"
+            <button class="btn btn-sm btn-secondary action"
               (click)="logic.activePlayer.giveHint(player, card, card.number)">Hint
               number
               {{card.number}}</button>
