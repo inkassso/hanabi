@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Card } from './card';
+import { Card, cardColors, isColorful } from './card';
 import { GameLogic } from './logic';
 
 @Component({
@@ -18,4 +18,7 @@ export class GameComponent implements OnInit {
   getCardClasses(card: Card): string[] {
     return [card.color];
   }
+
+  readonly isColorful = isColorful;
+  readonly allSingleColors = cardColors;
 }

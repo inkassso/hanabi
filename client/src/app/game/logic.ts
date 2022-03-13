@@ -28,6 +28,14 @@ export class GameLogic {
     return this.players[this.playerOnTurn];
   }
 
+  get noteTokens(): number {
+    return this.gameBoard.noteTokens;
+  }
+
+  get stormTokens(): number {
+    return this.gameBoard.stormTokens;
+  }
+
   constructor(playerNames: string[]) {
     if (playerNames.length < playerSettings.min) {
       throw new Error(`At least ${playerSettings.min} players must be playing, ${playerNames.length} defined`);
