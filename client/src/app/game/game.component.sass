@@ -1,29 +1,46 @@
-.highlight
-  background-color: light-blue
 :host
   display: block
 
+.players
+  .active
+    background-color: lightblue
 
 .card
   &.blue
-    color: blue
+    background-color: blue
+    color: white
 
   &.green
-    color: green
+    background-color: green
+    color: white
 
   &.red
-    color: red
+    background-color: red
+    color: white
 
   &.white
-    color: white
-    text-shadow: 0 0 2px black
+    background-color: white
+    color: black
 
   &.yellow
-    color: yellow
-    text-shadow: 0 0 1px black
+    background-color: yellow
+    color: black
 
   &.colorful
     background-image: linear-gradient(to left, blue, green, white, yellow, red)
-    -webkit-background-clip: text
-    color: transparent
-    text-shadow: 0 0 1px black
+    color: black
+
+  .action
+    margin: 0.5rem
+
+  &:hover .description
+    display: none
+
+  &:not(:hover) .action
+    display: none
+
+.tokens
+  .note
+    color: blue
+  .storm
+    color: red

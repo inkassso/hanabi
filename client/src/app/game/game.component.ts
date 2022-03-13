@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Card, cardColors, isColorful } from './card';
 import { GameLogic } from './logic';
+import { Player } from './player';
 
 @Component({
   selector: 'app-game',
@@ -12,11 +13,14 @@ export class GameComponent implements OnInit {
   logic?: GameLogic;
 
   ngOnInit(): void {
-    this.logic = new GameLogic(['Lucas', 'George']);
+    this.logic = new GameLogic(['Lucas', 'George', 'Hayden', 'Ewan']);
   }
 
-  getCardClasses(card: Card): string[] {
-    return [card.color];
+  getCardBackgroundClass(player: Player, card: Card): string {
+    if (player === this.logic?.activePlayer) {
+      return '';
+    }
+    return card.color;
   }
 
   readonly isColorful = isColorful;
