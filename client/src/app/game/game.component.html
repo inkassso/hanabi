@@ -5,36 +5,39 @@
     <span class="storm">Storm tokens: <strong>{{logic.stormTokens}}</strong></span>
   </p>
   <div class="w-100 d-flex flex-row players">
-    <div *ngFor="let player of logic.players" class="flex-grow-1" [class.active]="player === logic.activePlayer">
+    <div *ngFor="let player of logic.players" class="flex-grow-1 p-3" [class.active]="player === logic.activePlayer">
       <h3>{{player.name}}</h3>
-      <p>Cards:</p>
-      <ul>
-        <li *ngFor="let card of player.cards" class="d-flex flex-row justify-content-center align-items-center card"
-          [class]="getCardBackgroundClass(player, card)">
-          <ng-container *ngIf="player === logic.activePlayer; else otherPlayersContent">
-            <strong class="description">Card</strong>
-            <button class="btn btn-sm btn-primary action" (click)="player.playCard(card)">Play</button>
-            <button class="btn btn-sm btn-secondary action" (click)="player.discardCard(card)">Discard</button>
-          </ng-container>
+      <div class="d-flex flex-column cards">
+        <ng-container *ngFor="let card of player.cards">
+          <div class="d-flex flex-row justify-content-center align-items-center card"
+            [class]="getCardBackgroundClass(player, card)" [ngbPopover]="popContent">
+            <strong class="description">
+              {{ player === logic.activePlayer ? 'Card' : card.color + ' ' + card.number }}
+            </strong>
+          </div>
+          <ng-template #popContent>
+            <ng-container *ngIf="player === logic.activePlayer; else otherPlayersContent">
+              <button class="btn btn-sm btn-primary action" (click)="player.playCard(card)">Play</button>
+              <button class="btn btn-sm btn-secondary action" (click)="player.discardCard(card)">Discard</button>
+            </ng-container>
 
-          <ng-template #otherPlayersContent>
-            <strong class="description">{{card.color}} {{card.number}}</strong>
-
-            <button class="btn btn-sm btn-primary action" *ngIf="!isColorful(card.color); else allColorActions"
-              (click)="logic.activePlayer.giveHint(player, card, card.color)">Hint color {{card.color}}</button>
-            <ng-template #allColorActions>
-              <div class="d-flex flex-column">
-                <button *ngFor="let color of allSingleColors" class="btn btn-sm btn-primary action"
-                  (click)="logic.activePlayer.giveHint(player, card, color)">Hint {{color}}</button>
-              </div>
+            <ng-template #otherPlayersContent>
+              <button class="btn btn-sm btn-primary action" *ngIf="!isColorful(card.color); else allColorActions"
+                (click)="logic.activePlayer.giveHint(player, card, card.color)">Hint color {{card.color}}</button>
+              <ng-template #allColorActions>
+                <div class="d-flex flex-column">
+                  <button *ngFor="let color of allSingleColors" class="btn btn-sm btn-primary action"
+                    (click)="logic.activePlayer.giveHint(player, card, color)">Hint {{color}}</button>
+                </div>
+              </ng-template>
+              <button class="btn btn-sm btn-secondary action"
+                (click)="logic.activePlayer.giveHint(player, card, card.number)">Hint
+                number
+                {{card.number}}</button>
             </ng-template>
-            <button class="btn btn-sm btn-secondary action"
-              (click)="logic.activePlayer.giveHint(player, card, card.number)">Hint
-              number
-              {{card.number}}</button>
           </ng-template>
-        </li>
-      </ul>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>

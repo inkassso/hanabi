@@ -6,6 +6,8 @@
     background-color: lightblue
 
 .card
+  min-height: 3rem
+
   &.blue
     background-color: blue
     color: white
@@ -30,14 +32,8 @@
     background-image: linear-gradient(to left, blue, green, white, yellow, red)
     color: black
 
-  .action
-    margin: 0.1rem 0.5rem
-
-  &:hover .description
-    display: none
-
-  &:not(:hover) .action
-    display: none
+.action
+  margin: 0.1rem 0.5rem
 
 .tokens
   .note
