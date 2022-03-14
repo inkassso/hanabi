@@ -2,6 +2,7 @@ import { BehaviorSubject } from "rxjs";
 import { IAction } from "./actions";
 import { DiscardPile } from "./discard-pile";
 import { DrawDeck } from "./draw-deck";
+import { GameOverError } from "./error";
 import { GameBoard } from "./game-board";
 import { Player } from "./player";
 
@@ -18,6 +19,7 @@ const playerSettings = {
 export class GameLogic {
 
   error$ = new BehaviorSubject<Error | undefined>(undefined);
+  gameOver$ = new BehaviorSubject<Error | undefined>(undefined);
 
   private drawDeck = new DrawDeck();
   private discardPile = new DiscardPile();
@@ -55,9 +57,16 @@ export class GameLogic {
   }
 
   private executePlayerAction(action: IAction): void {
-    this.checkActivePlayer(action);
-    action.perform(this.gameBoard);
-    this.nextPlayerTurn();
+    try {
+      this.checkActivePlayer(action);
+      action.perform(this.gameBoard);
+      this.nextPlayerTurn();
+    } catch (e) {
+      if (e instanceof GameOverError) {
+        this.gameOver$.next(e);
+      }
+      else throw e;
+    }
   }
 
   private checkActivePlayer(action: IAction): void {
