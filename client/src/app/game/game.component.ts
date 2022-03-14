@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Card, cardColors, isColorful } from './card';
-import { GameLogic } from './logic';
-import { Player } from './player';
+import { Card, cardColors, GameLogic, isColorful, Player } from './types';
 
 @Component({
   selector: 'app-game',
