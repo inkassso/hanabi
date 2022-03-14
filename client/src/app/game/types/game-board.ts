@@ -18,6 +18,7 @@ export class GameBoard {
     yellow: []
   };
 
+  private readonly initialNoteTokens: number;
   private readonly initialStormTokens: number;
 
   constructor(
@@ -26,10 +27,14 @@ export class GameBoard {
     private drawDeck: DrawDeck,
     private discardPile: DiscardPile
   ) {
+    this.initialNoteTokens = noteTokens;
     this.initialStormTokens = stormTokens;
   }
 
   giveHint(from: Player, to: Player, card: Card, hint: CardNumber | SingleColor): void {
+    if (this.noteTokens <= 0) {
+      throw new Error(`You're out of note tokens. Either discard a card to receive a note token, or play one.`);
+    }
     if (from === to) {
       throw new Error(`Player ${from.name} cannot give hints to himself`);
     }
@@ -41,12 +46,17 @@ export class GameBoard {
     }
     console.log(`Player ${from.name} is giving ${to.name} a hint on card ${card.toString()}: ${hint}`);
     // TODO implement
+
+    --this.noteTokens;
   }
 
   discardCard(player: Player, card: Card): void {
     player.removeCard(card);
     this.discardPile.discard(card);
     this.drawCard(player);
+    if (this.noteTokens < this.initialNoteTokens) {
+      ++this.noteTokens;
+    }
   }
 
   playCard(player: Player, card: Card, applicableColor?: SingleColor): void {
