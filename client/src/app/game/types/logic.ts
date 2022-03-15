@@ -24,7 +24,7 @@ export class GameLogic {
   private drawDeck = new DrawDeck();
   private discardPile = new DiscardPile();
 
-  private gameBoard = new GameBoard(defaults.noteTokens, defaults.stormTokens, this.drawDeck, this.discardPile);
+  readonly gameBoard = new GameBoard(defaults.noteTokens, defaults.stormTokens, this.drawDeck, this.discardPile);
 
   readonly players: Player[];
   private playerOnTurn = 0;

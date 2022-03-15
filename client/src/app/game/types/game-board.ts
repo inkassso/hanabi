@@ -10,7 +10,7 @@ type Table = {
 
 export class GameBoard {
 
-  private table: Table = {
+  readonly table: Table = {
     blue: [],
     green: [],
     red: [],
