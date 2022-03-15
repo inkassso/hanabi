@@ -19,7 +19,7 @@ const playerSettings = {
 export class GameLogic {
 
   error$ = new BehaviorSubject<Error | undefined>(undefined);
-  gameOver$ = new BehaviorSubject<Error | undefined>(undefined);
+  gameOver$ = new BehaviorSubject<GameOverError | undefined>(undefined);
 
   private drawDeck = new DrawDeck();
   private discardPile = new DiscardPile();
@@ -43,10 +43,10 @@ export class GameLogic {
 
   constructor(playerNames: string[]) {
     if (playerNames.length < playerSettings.min) {
-      throw new Error(`At least ${playerSettings.min} players must be playing, ${playerNames.length} defined`);
+      throw new Error(`At least ${playerSettings.min} players must be playing, ${playerNames.length} defined.`);
     }
     if (playerNames.length > playerSettings.max) {
-      throw new Error(`At most ${playerSettings.max} players can play, ${playerNames.length} defined`);
+      throw new Error(`At most ${playerSettings.max} players can play, ${playerNames.length} defined.`);
     }
     const cardsToDraw = playerNames.length <= 3 ? 5 : 4;
     this.players = playerNames.map(name => new Player(name, this.drawDeck.drawCards(cardsToDraw)));

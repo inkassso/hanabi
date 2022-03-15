@@ -46,7 +46,17 @@
 </div>
 <ng-template #gameLoading>
   <div class="flex-grow-1 d-flex flex-column justify-content-center">
-    <h3>Do you want to</h3>
+    <div class="d-flex flex-column align-items-center">
+      <ng-container *ngIf="gameOverReason; else landingPage">
+        <h3>Game over</h3>
+        <p>{{gameOverReason.message}}</p>
+        <button class="btn btn-lg btn-primary" (click)="start()">Play again</button>
+      </ng-container>
+
+      <ng-template #landingPage>
+        <h3>Would you like to</h3>
     <button class="btn btn-lg btn-primary" (click)="start()">Play?</button>
+      </ng-template>
+    </div>
   </div>
 </ng-template>
