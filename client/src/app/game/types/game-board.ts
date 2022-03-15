@@ -78,8 +78,10 @@ export class GameBoard {
     const firework = this.table[applicableColor];
 
     let incorrectPlayReason: string | undefined;
-    if (firework.length === 0 && card.number !== 1) {
+    if (firework.length === 0) {
+      if (card.number !== 1) {
         incorrectPlayReason = `${applicableColor} firework is empty, number 1 expected, number ${card.number} played.`;
+      }
     }
     else if (firework.length === 5) {
       incorrectPlayReason = `${applicableColor} firework is already fully assembled.`;
@@ -89,17 +91,20 @@ export class GameBoard {
       incorrectPlayReason = `${applicableColor} firework is on number ${currentNumber}, number ${currentNumber + 1} expected, number ${card.number} played.`;
     }
 
+    // whatever happens, replace player's card
+    player.removeCard(card);
+    this.drawCard(player);
+    // TODO handle last round after last card was drawn, possibly use more observables instead of throwing errors
+
     if (incorrectPlayReason) {
       console.log(`Card cannot be played:`, incorrectPlayReason);
       if (--this.stormTokens == 0) {
         throw new StormTokensDepletedError(`All ${this.initialStormTokens} storm tokens have been depleted.`);
       }
     }
-
-    player.removeCard(card);
-    firework.push(card);
-
-    this.drawCard(player);
+    else {
+      firework.push(card);
+    }
   }
 
   private drawCard(player: Player): void {

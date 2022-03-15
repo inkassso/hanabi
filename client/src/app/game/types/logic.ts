@@ -83,6 +83,7 @@ export class GameLogic {
     try {
       return action();
     } catch (e) {
+      console.error(e);
       this.error$.next(e as Error); // TODO configure eslint
     }
     return undefined;
