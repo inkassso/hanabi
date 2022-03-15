@@ -1,0 +1,21 @@
+@use '../card/card'
+
+\:host
+  display: block
+
+$card-offset: 2rem
+
+.firework
+  width: card.$card-width
+  height: card.$card-height
+
+  &:empty
+    padding: 0.5rem
+    background-clip: content-box // show the background color inside the content are, not padding
+    border: 1px dashed black
+    opacity: 0.3
+
+  @for $i from 1 through 5
+    > .card:nth-child(#{$i})
+      position: absolute
+      transform: translate(#{2*$i - 1}rem)

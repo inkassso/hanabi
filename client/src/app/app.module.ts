@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
+import { BoardComponent } from './board/board.component';
 import { GameComponent } from './game/game.component';
 import { CardComponent } from './card/card.component';
 
@@ -13,6 +14,7 @@ import { CardComponent } from './card/card.component';
   declarations: [
     AppComponent,
     GameComponent,
+    BoardComponent,
     CardComponent
   ],
   imports: [
