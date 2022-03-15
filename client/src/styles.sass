@@ -2,3 +2,21 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap'
+
+@mixin colored($color, $text-color: black, $border-color: $color)
+  .#{"" + $color}
+    background-color: $color
+    color: $text-color
+    &.btn, &.bordered
+      border: 1px solid $border-color
+      border-radius: $border-radius
+
+@include colored(blue, white)
+@include colored(green, white)
+@include colored(red, white)
+@include colored(white, black, black)
+@include colored(yellow, black)
+
+.colorful
+  background-image: linear-gradient(to left, blue, green, white, yellow, red)
+  color: black

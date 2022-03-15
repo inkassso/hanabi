@@ -11,23 +11,6 @@
 .card
   min-height: 3rem
 
-@mixin colored($color, $text-color: black, $border-color: $color)
-  .#{"" + $color}
-    background-color: $color
-    color: $text-color
-    &.btn
-      border-color: $border-color
-
-@include colored(blue, white)
-@include colored(green, white)
-@include colored(red, white)
-@include colored(white, black, black)
-@include colored(yellow, black)
-
-.colorful
-  background-image: linear-gradient(to left, blue, green, white, yellow, red)
-  color: black
-
 .action
   margin: 0.1rem
 
