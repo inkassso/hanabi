@@ -9,6 +9,7 @@ import { BoardComponent } from './board/board.component';
 import { GameComponent } from './game/game.component';
 import { CardComponent } from './card/card.component';
 import { PlayerHandComponent } from './player-hand/player-hand.component';
+import { PlayerBoardComponent } from './player-board/player-board.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { PlayerHandComponent } from './player-hand/player-hand.component';
     GameComponent,
     BoardComponent,
     CardComponent,
-    PlayerHandComponent
+    PlayerHandComponent,
+    PlayerBoardComponent
   ],
   imports: [
     BrowserModule,

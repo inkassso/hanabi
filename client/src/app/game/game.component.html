@@ -1,19 +1,14 @@
 <h1>Hanabi</h1>
-<div *ngIf="logic; else gameLoading" class="w-100 h-100">
+<div *ngIf="logic; else noGame" class="w-100 h-100">
   <p class="tokens">
     <span class="note">Note tokens: <strong>{{logic.noteTokens}}</strong></span><br />
     <span class="storm">Storm tokens: <strong>{{logic.stormTokens}}</strong></span>
   </p>
   <app-board [board]="logic.gameBoard" class="my-3"></app-board>
-  <div class="w-100 my-3 d-flex flex-row players">
-    <div *ngFor="let player of logic.players" class="flex-grow-1 p-3" [class.active]="player === logic.activePlayer">
-      <app-player-hand [player]="player" [isActive]="player === logic.activePlayer"
-        (hintRequest)="logic.activePlayer.giveHint($event.to, $event.card, $event.hint)">
-      </app-player-hand>
-    </div>
-  </div>
+  <app-player-board [players]="logic.players" [activePlayer]="logic.activePlayer"></app-player-board>
 </div>
-<ng-template #gameLoading>
+
+<ng-template #noGame>
   <div class="flex-grow-1 d-flex flex-column justify-content-center">
     <div class="d-flex flex-column align-items-center">
       <ng-container *ngIf="gameOverReason; else landingPage">
