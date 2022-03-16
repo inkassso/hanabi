@@ -3,7 +3,7 @@
   <div class="d-flex flex-column clearfix hand">
     <div *ngFor="let card of player.cards" class="card-wrapper">
       <app-card [card]="isActive ? undefined : card" [ngbPopover]="popContent" [popoverTitle]="popTitle"
-        popoverClass="w-200">
+        popoverClass="w-200 shadow">
       </app-card>
       <ng-template #popTitle>
         <div class="d-flex justify-content-around align-items-center">
