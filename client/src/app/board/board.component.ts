@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Card, cardColors, GameBoard, SingleColor } from '../types';
+import { Card, cardColors, colorBackgrounds, GameBoard, SingleColor } from '../types';
 
 @Component({
   selector: 'app-board',
@@ -26,9 +26,10 @@ export class BoardComponent implements OnInit {
     return this.getCards(color).length === 0;
   }
 
-  getCardSlotClasses(color: SingleColor): string | string[] | { [prop: string]: boolean } {
-    return {
-      [color]: this.isFireworkEmpty(color),
-    };
+  getBackgroundClass(color: SingleColor): string {
+    if (!this.isFireworkEmpty(color)) {
+      return '';
+    }
+    return colorBackgrounds[color];
   }
 }

@@ -1,4 +1,4 @@
-<div class="p-2 card" [class]="card?.color">
+<div class="p-2 card" [class]="colorClass">
   <div *ngIf="card; else backSide" class="position-relative w-100 h-100 fs-4">
     <strong class="position-absolute top-0 start-0">{{card.number}}</strong>
     <strong class="position-absolute top-0 end-0">{{card.number}}</strong>

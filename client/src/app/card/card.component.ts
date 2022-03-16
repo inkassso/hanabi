@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Card } from '../types';
+import { Card, colorBackgrounds } from '../types';
 
 @Component({
   selector: 'app-card',
@@ -15,4 +15,11 @@ export class CardComponent implements OnInit {
 
   @Input()
   card: Card | undefined;
+
+  get colorClass(): string | undefined {
+    if (!this.card) {
+      return undefined;
+    }
+    return colorBackgrounds[this.card.color];
+  }
 }

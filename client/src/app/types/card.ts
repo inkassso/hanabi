@@ -69,3 +69,15 @@ export class Card {
     return `[${this.color} ${this.number}]`;
   }
 }
+
+/**
+ * Mapping of card colors to Bootstrap classes
+ */
+export const colorBackgrounds: { [name in CardColor]: string } = {
+  blue: 'bg-primary',
+  green: 'bg-success',
+  red: 'bg-danger',
+  white: 'bg-light',
+  yellow: 'bg-warning',
+  colorful: 'colorful'
+}

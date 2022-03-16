@@ -17,6 +17,6 @@ $card-offset-y: 0.2
     opacity: 0.3
 
   @for $i from 1 through 5
-    > .card:nth-child(#{$i})
+    > :nth-child(#{$i})
       position: absolute
       transform: translate(#{$card-offset-x * ($i - 1)}rem, #{$card-offset-y * ($i - 1)}rem)
