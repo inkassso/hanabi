@@ -2,30 +2,43 @@
   <h3>{{player.name }}</h3>
   <div class="d-flex flex-column position-relative hand">
     <div *ngFor="let card of player.cards" class="card-wrapper">
-      <app-card [card]="isActive ? undefined : card" [ngbPopover]="popContent" [popoverTitle]="popTitle"
-        popoverClass="w-200 shadow" autoClose="outside" role="button">
+      <app-card [card]="isActive && card !== flippedColorful ? undefined : card" [ngbPopover]="popContent"
+        [popoverTitle]="popTitle" popoverClass="w-200 shadow" autoClose="outside" role="button">
       </app-card>
       <ng-template #popTitle>
-        <div class="d-flex justify-content-around align-items-center">
-          <span>{{ isActive ? 'Your card' : 'Give Hint' }}</span>
+        <div [ngSwitch]="true" class="d-flex justify-content-around align-items-center">
+          <ng-container *ngSwitchCase="isActive" [ngSwitch]="flippedColorful">
+            <span *ngSwitchCase="card">Select firework color</span>
+            <span *ngSwitchDefault>Select action</span>
+          </ng-container>
+          <span *ngSwitchDefault>Give Hint</span>
         </div>
       </ng-template>
       <ng-template #popContent>
-        <div class="d-flex flex-row justify-content-around align-items-center">
-          <ng-container *ngIf="isActive; else otherPlayersContent">
-            <button class="btn btn-sm btn-light action" (click)="player.playCard(card)">Play</button>
-            <button class="btn btn-sm btn-secondary action" (click)="player.discardCard(card)">Discard</button>
+        <div class="d-flex flex-row justify-content-around align-items-center" [ngSwitch]="true">
+          <ng-container *ngSwitchCase="isActive" [ngSwitch]="flippedColorful">
+            <div *ngSwitchCase="card" class="d-flex flex-column">
+              <!-- TODO show only colors which are applicable, error otherwise -->
+              <button *ngFor="let color of allSingleColors" class="btn btn-sm action" [class]="getButtonClass(color)"
+                (click)="player.playCard(card, color)">
+                Color {{color}}
+              </button>
+            </div>
+            <ng-container *ngSwitchDefault>
+              <button class="btn btn-sm btn-light action" (click)="playCard(card)">Play</button>
+              <button class="btn btn-sm btn-secondary action" (click)="player.discardCard(card)">Discard</button>
+            </ng-container>
           </ng-container>
 
-          <ng-template #otherPlayersContent>
-            <button class="btn btn-sm btn-primary action" *ngIf="!isColorful(card.color); else allColorActions"
+          <ng-container *ngSwitchDefault>
+            <button class="btn btn-sm action" *ngIf="!isColorful(card.color); else allColorActions"
               [class]="getButtonClass(card.color)" (click)="notifyGiveHintRequest(card, card.color)">
               Color {{card.color}}
             </button>
             <ng-template #allColorActions>
               <div class="d-flex flex-column">
-                <button *ngFor="let color of allSingleColors" class="btn btn-sm btn-primary action"
-                  [class]="getButtonClass(color)" (click)="notifyGiveHintRequest(card, color)">
+                <button *ngFor="let color of allSingleColors" class="btn btn-sm action" [class]="getButtonClass(color)"
+                  (click)="notifyGiveHintRequest(card, color)">
                   Color {{color}}
                 </button>
               </div>
@@ -33,7 +46,7 @@
             <button class="btn btn-sm btn-secondary action" (click)="notifyGiveHintRequest(card, card.number)">
               Number {{card.number}}
             </button>
-          </ng-template>
+          </ng-container>
         </div>
       </ng-template>
     </div>

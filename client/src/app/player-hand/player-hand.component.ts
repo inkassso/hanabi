@@ -45,4 +45,18 @@ export class PlayerHandComponent implements OnInit {
   getButtonClass(color: CardColor): string {
     return 'btn-' + colorToBootstrap[color];
   }
+
+  flippedColorful?: Card;
+
+  playCard(card: Card): void {
+    if (!this.player) {
+      throw new Error('Player not defined');
+    }
+    if (!isColorful(card.color)) {
+      this.player.playCard(card);
+    }
+    else {
+      this.flippedColorful = card;
+    }
+  }
 }
