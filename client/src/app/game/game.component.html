@@ -1,9 +1,15 @@
 <h1>Hanabi</h1>
 <div *ngIf="logic; else noGame" class="w-100 h-100">
-  <p class="tokens">
-    <span class="note">Note tokens: <strong>{{logic.noteTokens}}</strong></span><br />
-    <span class="storm">Storm tokens: <strong>{{logic.stormTokens}}</strong></span>
-  </p>
+  <div class="d-flex justify-content-center">
+    <div class=" mx-5 tokens">
+      <div class="note">Note tokens: <strong>{{logic.noteTokens}}</strong></div>
+      <div class="storm">Storm tokens: <strong>{{logic.stormTokens}}</strong></div>
+    </div>
+    <div class="mx-5 draw-discard-cards">
+      <div class="draw-deck">Cards in Draw Deck: <strong>{{logic.drawDeck.cards.length}}</strong></div>
+      <div class="discard-pile">Cards in Discard Pile: <strong>{{logic.discardPile.cards.length}}</strong></div>
+    </div>
+  </div>
   <app-board [board]="logic.gameBoard" class="my-3"></app-board>
   <app-player-board [players]="logic.players" [activePlayer]="logic.activePlayer"></app-player-board>
 </div>

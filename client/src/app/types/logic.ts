@@ -21,8 +21,8 @@ export class GameLogic {
   error$ = new BehaviorSubject<Error | undefined>(undefined);
   gameOver$ = new BehaviorSubject<GameOverError | undefined>(undefined);
 
-  private drawDeck = new DrawDeck();
-  private discardPile = new DiscardPile();
+  readonly drawDeck = new DrawDeck();
+  readonly discardPile = new DiscardPile();
 
   readonly gameBoard = new GameBoard(defaults.noteTokens, defaults.stormTokens, this.drawDeck, this.discardPile);
 
