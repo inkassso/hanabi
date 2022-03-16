@@ -1,9 +1,15 @@
 <ng-container *ngIf="player; else loading">
   <h3>{{player.name }}</h3>
   <div class="d-flex flex-column clearfix hand">
-    <ng-container *ngFor="let card of player.cards">
-      <app-card [card]="isActive ? undefined : card" [ngbPopover]="popContent" popoverTitle="Actions" class="card">
+    <div *ngFor="let card of player.cards" class="card-wrapper">
+      <app-card [card]="isActive ? undefined : card" [ngbPopover]="popContent" [popoverTitle]="popTitle"
+        popoverClass="w-200">
       </app-card>
+      <ng-template #popTitle>
+        <div class="d-flex justify-content-around align-items-center">
+          <span>Actions</span>
+        </div>
+      </ng-template>
       <ng-template #popContent>
         <div class="d-flex flex-row justify-content-center align-items-center">
           <ng-container *ngIf="isActive; else otherPlayersContent">
@@ -12,21 +18,27 @@
           </ng-container>
 
           <ng-template #otherPlayersContent>
-            <button class="btn btn-sm btn-primary action" *ngIf="!isColorful(card.color); else allColorActions"
-              [class]="card.color" (click)="notifyGiveHintRequest(card, card.color)">Hint color {{card.color}}</button>
-            <ng-template #allColorActions>
-              <div class="d-flex flex-column">
-                <button *ngFor="let color of allSingleColors" class="btn btn-sm btn-primary action" [class]="color"
-                  (click)="notifyGiveHintRequest(card, color)">Hint {{color}}</button>
-              </div>
-            </ng-template>
-            <button class="btn btn-sm btn-secondary action" (click)="notifyGiveHintRequest(card, card.number)">
-              Hint number {{card.number}}
-            </button>
+            <div class="d-flex justify-content-center align-items-center">
+              <button class="btn btn-sm btn-primary action" *ngIf="!isColorful(card.color); else allColorActions"
+                [class]="card.color" (click)="notifyGiveHintRequest(card, card.color)">
+                color {{card.color}}
+              </button>
+              <ng-template #allColorActions>
+                <div class="d-flex flex-column">
+                  <button *ngFor="let color of allSingleColors" class="btn btn-sm btn-primary action" [class]="color"
+                    (click)="notifyGiveHintRequest(card, color)">
+                    color {{color}}
+                  </button>
+                </div>
+              </ng-template>
+              <button class="btn btn-sm btn-secondary action" (click)="notifyGiveHintRequest(card, card.number)">
+                number {{card.number}}
+              </button>
+            </div>
           </ng-template>
         </div>
       </ng-template>
-    </ng-container>
+    </div>
   </div>
 </ng-container>
 <ng-template #loading>

@@ -1,13 +1,17 @@
+@use '../card/card'
+
 \:host
   display: block
 
 $card-offset-x: 2
 $card-offset-y: 0
 
-.card
+.card-wrapper
   position: absolute
 
   @for $i from 1 through 4
     &:nth-child(#{$i})
-      position: absolute
       transform: translate(#{$card-offset-x * ($i - 1)}rem, #{$card-offset-y * ($i - 1)}rem)
+
+.action
+  margin: 0.1rem
