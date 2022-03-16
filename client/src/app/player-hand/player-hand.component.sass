@@ -3,15 +3,29 @@
 \:host
   display: block
 
+$cards-in-hand: 4
 $card-offset-x: 2
 $card-offset-y: 0
 
+@mixin all-siblings($select, $limit: 4)
+  $nester: ' + *'
+  @for $i from 1 through $limit
+    $select: $select + $nester
+    #{$select}
+      @content
+
 .card-wrapper
   position: absolute
+  transition: transform ease 300ms
 
-  @for $i from 1 through 4
+  @for $i from 1 through $cards-in-hand
     &:nth-child(#{$i})
-      transform: translate(#{$card-offset-x * ($i - 1)}rem, #{$card-offset-y * ($i - 1)}rem)
+      left: #{$card-offset-x * ($i - 1)}rem
+      top: #{$card-offset-y * ($i - 1)}rem
+
+  &:hover
+    @include all-siblings('', $cards-in-hand - 1)
+      transform: translateX(80%)
 
 .action
-  margin: 0.1rem
+  margin: 0.2rem
