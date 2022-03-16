@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Card, cardColors, CardNumber, isColorful, Player, SingleColor } from '../types';
+import { Card, CardColor, cardColors, CardNumber, colorToBootstrap, isColorful, Player, SingleColor } from '../types';
 
 export interface IHintRequest {
   to: Player;
@@ -40,5 +40,9 @@ export class PlayerHandComponent implements OnInit {
       card,
       hint
     });
+  }
+
+  getButtonClass(color: CardColor): string {
+    return 'btn-' + colorToBootstrap[color];
   }
 }

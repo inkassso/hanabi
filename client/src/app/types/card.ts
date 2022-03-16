@@ -73,11 +73,11 @@ export class Card {
 /**
  * Mapping of card colors to Bootstrap classes
  */
-export const colorBackgrounds: { [name in CardColor]: string } = {
-  blue: 'bg-primary',
-  green: 'bg-success',
-  red: 'bg-danger',
-  white: 'bg-light',
-  yellow: 'bg-warning',
+export const colorToBootstrap: { [name in CardColor]: string } = {
+  blue: 'primary',
+  green: 'success',
+  red: 'danger',
+  white: 'light',
+  yellow: 'warning',
   colorful: 'colorful'
 }

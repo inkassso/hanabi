@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Card, cardColors, colorBackgrounds, GameBoard, SingleColor } from '../types';
+import { Card, cardColors, colorToBootstrap, GameBoard, SingleColor } from '../types';
 
 @Component({
   selector: 'app-board',
@@ -30,6 +30,6 @@ export class BoardComponent implements OnInit {
     if (!this.isFireworkEmpty(color)) {
       return '';
     }
-    return colorBackgrounds[color];
+    return 'bg-' + colorToBootstrap[color];
   }
 }
