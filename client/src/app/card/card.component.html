@@ -1,8 +1,13 @@
 <div class="p-2 card" [class]="card?.color">
-  <div class="position-relative w-100 h-100 fs-4">
-    <strong class="position-absolute top-0 start-0">{{card?.number}}</strong>
-    <strong class="position-absolute top-0 end-0">{{card?.number}}</strong>
-    <strong class="position-absolute bottom-0 start-0">{{card?.number}}</strong>
-    <strong class="position-absolute bottom-0 end-0">{{card?.number}}</strong>
+  <div *ngIf="card; else backSide" class="position-relative w-100 h-100 fs-4">
+    <strong class="position-absolute top-0 start-0">{{card.number}}</strong>
+    <strong class="position-absolute top-0 end-0">{{card.number}}</strong>
+    <strong class="position-absolute bottom-0 start-0">{{card.number}}</strong>
+    <strong class="position-absolute bottom-0 end-0">{{card.number}}</strong>
   </div>
+  <ng-template #backSide>
+    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+      <span class="fs-1">?</span>
+    </div>
+  </ng-template>
 </div>
