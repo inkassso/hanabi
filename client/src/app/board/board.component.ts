@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Card, cardColors, GameBoard, SingleColor } from '../game/types';
+import { Card, cardColors, GameBoard, SingleColor } from '../types';
 
 @Component({
   selector: 'app-board',

@@ -3,7 +3,8 @@
 \:host
   display: block
 
-$card-offset: 2rem
+$card-offset-x: 2
+$card-offset-y: 0.2
 
 .firework
   width: card.$card-width
@@ -18,4 +19,4 @@ $card-offset: 2rem
   @for $i from 1 through 5
     > .card:nth-child(#{$i})
       position: absolute
-      transform: translate(#{2*$i - 1}rem)
+      transform: translate(#{$card-offset-x * ($i - 1)}rem, #{$card-offset-y * ($i - 1)}rem)
