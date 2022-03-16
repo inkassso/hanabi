@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { BoardComponent } from './board/board.component';
 import { GameComponent } from './game/game.component';
 import { CardComponent } from './card/card.component';
+import { PlayerHandComponent } from './player-hand/player-hand.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { CardComponent } from './card/card.component';
     AppComponent,
     GameComponent,
     BoardComponent,
-    CardComponent
+    CardComponent,
+    PlayerHandComponent
   ],
   imports: [
     BrowserModule,
