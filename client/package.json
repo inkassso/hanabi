@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "prebuild:gp": "scripts/gen.sh",
     "build:gp": "ng build -c github --base-href https://inkassso.github.io/hanabi/"
   },
   "private": true,
