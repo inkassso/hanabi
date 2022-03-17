@@ -7,6 +7,9 @@ $cards-in-hand: 4
 $card-offset-x: 2
 $card-offset-y: 0
 
+.hand
+  perspective: 40rem
+
 @mixin all-siblings($select, $limit: 4)
   $nester: ' + *'
   @for $i from 1 through $limit
@@ -25,7 +28,7 @@ $card-offset-y: 0
 
   &:hover
     @include all-siblings('', $cards-in-hand - 1)
-      transform: translateX(80%)
+      transform: translateX(64%) rotateY(30deg)
 
 .action
   margin: 0.2rem
