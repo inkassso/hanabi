@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ToastrModule } from 'ngx-toastr';
 import { GameComponent } from './game.component';
+
 
 describe('GameComponent', () => {
   let component: GameComponent;
@@ -8,9 +9,10 @@ describe('GameComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GameComponent ]
+      declarations: [GameComponent],
+      imports: [ToastrModule.forRoot()]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
