@@ -25,8 +25,14 @@ export class PlayerHandComponent implements OnInit {
   @Input()
   isActive = false;
 
+  @Input()
+  isDisabled = false;
+
   @Output()
   hintRequest = new EventEmitter<IHintRequest>();
+
+  @Output()
+  notifyFlip = new EventEmitter<boolean>();
 
   readonly isColorful = isColorful;
   readonly allSingleColors = cardColors;
@@ -57,6 +63,22 @@ export class PlayerHandComponent implements OnInit {
     }
     else {
       this.flippedColorful = card;
+      this.notifyFlip.next(true);
     }
+  }
+
+  playFlippedColorful(color: SingleColor): void {
+    if (!this.player) {
+      throw new Error('Player not defined');
+    }
+    if (!this.flippedColorful) {
+      throw new Error('No colorful card flipped');
+    }
+    this.player.playCard(this.flippedColorful, color);
+    this.notifyFlip.next(false);
+  }
+
+  isCardDisabled(card: Card): boolean {
+    return this.isDisabled || (!!this.flippedColorful && card !== this.flippedColorful);
   }
 }

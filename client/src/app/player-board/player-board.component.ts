@@ -18,4 +18,6 @@ export class PlayerBoardComponent implements OnInit {
 
   @Input()
   activePlayer: Player | undefined;
+
+  disableOtherPlayers = false;
 }
