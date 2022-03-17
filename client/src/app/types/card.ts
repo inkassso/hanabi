@@ -7,7 +7,7 @@ export function isCardNumber(val: any): val is CardNumber {
   return cardNumbers.includes(val);
 }
 
-export const cardColors = ['red', 'yellow', 'green', 'blue', 'white'] as const;
+export const cardColors = ['red', 'green', 'blue', 'white', 'yellow'] as const;
 /**
  * Possible distinct colors of firework cards
  */
