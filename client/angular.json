@@ -59,7 +59,7 @@
               "outputHashing": "all"
             },
             "github": {
-              "outputPath": "docs/",
+              "outputPath": "../docs/",
               "budgets": [
                 {
                   "type": "initial",
