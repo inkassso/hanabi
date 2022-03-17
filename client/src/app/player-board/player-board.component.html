@@ -1,3 +1,4 @@
+<h3>Players</h3>
 <div class="w-100 my-3 d-flex flex-row players">
   <div *ngFor="let player of players" class="flex-grow-1 p-3" [class.active]="player === activePlayer">
     <app-player-hand [player]="player" [isActive]="player === activePlayer"

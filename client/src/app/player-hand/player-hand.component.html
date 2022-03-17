@@ -1,5 +1,5 @@
 <ng-container *ngIf="player; else loading">
-  <h3>{{player.name }}</h3>
+  <h4>{{player.name }}</h4>
   <div class="d-flex flex-column position-relative hand">
     <div *ngFor="let card of player.cards" class="card-wrapper">
       <app-card [card]="card" [isFlipped]="isActive && card !== flippedColorful" [ngbPopover]="popContent"
