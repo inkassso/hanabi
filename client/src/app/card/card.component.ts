@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Card, colorToBootstrap } from '../types';
+import { Card, CardColor, colorToBootstrap } from '../types';
 
 @Component({
   selector: 'app-card',
@@ -19,10 +19,22 @@ export class CardComponent implements OnInit {
   @Input()
   isFlipped = false;
 
-  get colorClass(): string | undefined {
+  private readonly colorToBootstrapFont: { [color in CardColor]: string } = {
+    blue: 'text-light',
+    green: 'text-light',
+    red: 'text-light',
+    white: 'text-dark',
+    yellow: 'text-dark',
+    colorful: 'text-light'
+  };
+
+  get colorClasses(): string[] | undefined {
     if (!this.card) {
       return undefined;
     }
-    return 'bg-' + colorToBootstrap[this.card.color];
+    return [
+      'bg-' + colorToBootstrap[this.card.color],
+      this.colorToBootstrapFont[this.card.color]
+    ];
   }
 }
