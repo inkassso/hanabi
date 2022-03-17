@@ -1,5 +1,5 @@
 <h3>Fireworks</h3>
-<div class="w-100 d-flex justify-content-around board">
+<div class="w-100 d-flex flex-wrap justify-content-around board">
   <div *ngFor="let color of allSingleColors" class="firework" [class.card]="isFireworkEmpty(color)"
     [class]="getBackgroundClass(color)">
     <app-card *ngFor="let card of getCards(color)" [card]="card"></app-card>

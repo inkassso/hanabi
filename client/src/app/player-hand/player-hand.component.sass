@@ -8,7 +8,9 @@ $card-offset-x: 2
 $card-offset-y: 0
 
 .hand
-  perspective: 40rem
+  perspective: 40rem // for the 3D effect
+  height: card.$card-height + ($cards-in-hand - 1) * $card-offset-y
+  min-width: #{card.$card-width * 1.64 + $cards-in-hand * $card-offset-x}
 
 @mixin all-siblings($select, $limit: 4)
   $nester: ' + *'
