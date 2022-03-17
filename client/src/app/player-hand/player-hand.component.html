@@ -2,7 +2,7 @@
   <h3>{{player.name }}</h3>
   <div class="d-flex flex-column position-relative hand">
     <div *ngFor="let card of player.cards" class="card-wrapper">
-      <app-card [card]="isActive && card !== flippedColorful ? undefined : card" [ngbPopover]="popContent"
+      <app-card [card]="card" [isFlipped]="isActive && card !== flippedColorful" [ngbPopover]="popContent"
         [popoverTitle]="popTitle" popoverClass="w-200 shadow" autoClose="outside" role="button">
       </app-card>
       <ng-template #popTitle>

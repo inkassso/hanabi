@@ -3,6 +3,23 @@
 \:host
   display: block
 
-.card
-  width: card.$card-width
-  height: card.$card-height
+.outer
+  perspective: 40rem
+
+  .card-wrapper
+    width: card.$card-width
+    height: card.$card-height
+
+    position: relative
+    transition: transform 3s //0.8s
+    transform-style: preserve-3d
+
+    .front, .back
+      position: absolute
+      backface-visibility: hidden
+
+    .back
+      transform: rotateY(180deg)
+
+    &.flipped
+      transform: rotateY(180deg)

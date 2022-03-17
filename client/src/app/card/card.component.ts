@@ -16,6 +16,9 @@ export class CardComponent implements OnInit {
   @Input()
   card: Card | undefined;
 
+  @Input()
+  isFlipped = false;
+
   get colorClass(): string | undefined {
     if (!this.card) {
       return undefined;
