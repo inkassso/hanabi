@@ -8,8 +8,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false --browsers=ChromeHeadless",
     "test:w": "ng test --watch",
-    "prebuild:gp": "scripts/gen.sh",
-    "build:gp": "ng build -c github --base-href https://inkassso.github.io/hanabi/"
+    "prebuild:ghp": "scripts/gen.sh",
+    "build:ghp": "ng build --base-href https://inkassso.github.io/hanabi/",
+    "build:gp": "ng build --base-href https://inkassso.github.io/hanabi/",
+    "deploy": "npx angular-cli-ghpages --dir=dist/hanabi-client"
   },
   "private": true,
   "dependencies": {
