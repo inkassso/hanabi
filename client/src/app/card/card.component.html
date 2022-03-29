@@ -1,5 +1,5 @@
 <div class="outer">
-  <div class="shadow card-wrapper" [class.flipped]="isFlipped">
+  <div class="shadow card-wrapper" [class.flipped]="isFlipped" [style.transition-delay]="(flipDelay * 60) + 'ms'">
     <div class="p-2 w-100 h-100 card front" [class]="colorClasses">
       <div *ngIf="card; else error" class="position-relative w-100 h-100 fs-4">
         <strong class="position-absolute top-0 start-0">{{card.number}}</strong>

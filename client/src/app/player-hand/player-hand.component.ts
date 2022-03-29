@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Placement } from '@ng-bootstrap/ng-bootstrap';
-import { Card, CardColor, cardColors, CardNumber, colorToBootstrap, isColorful, Player, SingleColor } from '../types';
+import { Card, CardColor, cardColors, cardHigh, CardNumber, colorToBootstrap, isColorful, Player, SingleColor } from '../types';
 
 export interface IHintRequest {
   to: Player;
@@ -56,6 +56,10 @@ export class PlayerHandComponent implements OnInit {
 
   getButtonClass(color: CardColor): string {
     return 'btn-' + colorToBootstrap[color];
+  }
+
+  getFlipDelay(i: number): number {
+    return this.isActive ? i : cardHigh - i;
   }
 
   flippedColorful?: Card;

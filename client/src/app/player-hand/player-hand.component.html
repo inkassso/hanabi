@@ -1,9 +1,9 @@
 <ng-container *ngIf="player; else loading">
   <h4>{{player.name }}</h4>
   <div class="d-flex flex-column position-relative hand">
-    <div *ngFor="let card of player.cards" class="card-wrapper">
-      <app-card [card]="card" [isFlipped]="isActive && card !== flippedColorful" [ngbPopover]="popContent"
-        [popoverTitle]="popTitle" popoverClass="w-200 shadow" autoClose="outside"
+    <div *ngFor="let card of player.cards; let i = index" class="card-wrapper">
+      <app-card [card]="card" [isFlipped]="isActive && card !== flippedColorful" [flipDelay]="getFlipDelay(i)"
+        [ngbPopover]="popContent" [popoverTitle]="popTitle" popoverClass="w-200 shadow" autoClose="outside"
         [disablePopover]="isCardDisabled(card)" [placement]="popoverPlacement"
         [attr.role]="isCardDisabled(card) ? undefined : 'button'">
       </app-card>

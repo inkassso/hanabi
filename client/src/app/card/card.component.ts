@@ -19,6 +19,9 @@ export class CardComponent implements OnInit {
   @Input()
   isFlipped = false;
 
+  @Input()
+  flipDelay = 0;
+
   private readonly colorToBootstrapFont: { [color in CardColor]: string } = {
     blue: 'text-light',
     green: 'text-light',
