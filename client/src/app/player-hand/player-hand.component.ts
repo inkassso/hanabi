@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Placement } from '@ng-bootstrap/ng-bootstrap';
 import { Card, CardColor, cardColors, CardNumber, colorToBootstrap, isColorful, Player, SingleColor } from '../types';
 
 export interface IHintRequest {
@@ -36,6 +37,11 @@ export class PlayerHandComponent implements OnInit {
 
   readonly isColorful = isColorful;
   readonly allSingleColors = cardColors;
+  readonly popoverPlacement: Placement[] = [
+    'top', 'top-start', 'top-left', 'top-end', 'top-right',
+    'start', 'left', 'start-top', 'left-top', 'start-bottom', 'left-bottom',
+    'end', 'right', 'end-top', 'right-top', 'end-bottom', 'right-bottom'
+  ];
 
   notifyGiveHintRequest(card: Card, hint: SingleColor | CardNumber): void {
     if (!this.player) {
@@ -62,8 +68,7 @@ export class PlayerHandComponent implements OnInit {
       this.player.playCard(card);
     }
     else {
-      this.flippedColorful = card;
-      this.notifyFlip.next(true);
+      this.setFlippedColorful(card);
     }
   }
 
@@ -75,10 +80,15 @@ export class PlayerHandComponent implements OnInit {
       throw new Error('No colorful card flipped');
     }
     this.player.playCard(this.flippedColorful, color);
-    this.notifyFlip.next(false);
+    this.setFlippedColorful();
   }
 
   isCardDisabled(card: Card): boolean {
     return this.isDisabled || (!!this.flippedColorful && card !== this.flippedColorful);
+  }
+
+  private setFlippedColorful(card?: Card): void {
+    this.flippedColorful = card;
+    this.notifyFlip.next(!!card);
   }
 }
