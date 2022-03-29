@@ -1,8 +1,18 @@
-export const cardNumbers = [1, 2, 3, 4, 5] as const;
+export const cardLow = 1;
+const cardHighExclusive = 6;
+export const cardHigh = cardHighExclusive - 1;
+
+export const cardNumbers = Array.from(Array(cardHigh).keys()).slice(1);
+
+type PrependNextNum<A extends Array<unknown>> = A['length'] extends infer T ? ((t: T, ...a: A) => void) extends ((...x: infer X) => void) ? X : never : never;
+type EnumerateInternal<A extends Array<unknown>, N extends number> = { 0: A, 1: EnumerateInternal<PrependNextNum<A>, N> }[N extends A['length'] ? 0 : 1];
+type Enumerate<N extends number> = EnumerateInternal<[], N> extends (infer E)[] ? E : never;
+type Range<FROM extends number, TO extends number> = Exclude<Enumerate<TO>, Enumerate<FROM>>;
+
 /**
  * Possible numbers of firework cards
  */
-export type CardNumber = typeof cardNumbers[number];
+export type CardNumber = Range<typeof cardLow, typeof cardHighExclusive>;
 export function isCardNumber(val: any): val is CardNumber {
   return cardNumbers.includes(val);
 }

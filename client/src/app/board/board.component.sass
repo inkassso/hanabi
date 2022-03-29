@@ -16,7 +16,9 @@ $card-offset-y: 0.2
     border: 1px dashed black
     opacity: 0.3
 
-  @for $i from 1 through 5
-    > :nth-child(#{$i})
+  &:not(.finished)
+    > *
       position: absolute
-      transform: translate(#{$card-offset-x * ($i - 1)}rem, #{$card-offset-y * ($i - 1)}rem)
+    @for $i from 1 through 5
+      > :nth-child(#{$i})
+        transform: translate(#{$card-offset-x * ($i - 1)}rem, #{$card-offset-y * ($i - 1)}rem)
