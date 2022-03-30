@@ -1,7 +1,7 @@
 <ng-container *ngIf="player; else loading">
   <h4>{{player.name }}</h4>
   <div class="d-flex flex-column position-relative hand">
-    <div *ngFor="let card of player.cards; let i = index" class="card-wrapper">
+    <div *ngFor="let card of player.cards; let i = index" class="card-wrapper" @slideLeftScaleUp>
       <app-card [card]="card" [isFlipped]="isActive && card !== flipped" [flipDelay]="getFlipDelay(i)"
         [ngbPopover]="popContent" [popoverTitle]="popTitle" popoverClass="w-200 shadow" autoClose="outside"
         [disablePopover]="isCardDisabled(card)" [placement]="popoverPlacement" triggers="manual" #popover="ngbPopover"

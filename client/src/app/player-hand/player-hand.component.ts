@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Placement } from '@ng-bootstrap/ng-bootstrap';
 import { assert, Card, CardColor, cardColors, cardHigh, CardNumber, colorToBootstrap, isColorful, Player, SingleColor } from '../types';
@@ -13,7 +14,24 @@ const actionDelayMs = 1800; // the flip animation takes 0.8s
 @Component({
   selector: 'app-player-hand',
   templateUrl: './player-hand.component.html',
-  styleUrls: ['./player-hand.component.sass']
+  styleUrls: ['./player-hand.component.sass'],
+  animations: [
+    trigger('slideLeftScaleUp', [
+      transition(':enter', [
+        style({
+          transform: 'translateX(100%)',
+          opacity: 0
+        }),
+        animate('300ms ease')
+      ]),
+      transition(':leave', [
+        animate('300ms ease', style({
+          transform: 'scale(200%)',
+          opacity: 0
+        }))
+      ])
+    ])
+  ]
 })
 export class PlayerHandComponent implements OnInit {
 
