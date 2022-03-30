@@ -23,26 +23,26 @@
             <div *ngSwitchCase="card === flipped && isColorful(card.color)" class="d-flex flex-column">
               <!-- TODO show only colors which are applicable, error otherwise -->
               <button *ngFor="let color of allSingleColors" class="btn btn-sm action" [class]="getButtonClass(color)"
-                (click)="playFlippedColorful(color)">
+                (click)="playFlippedColorful(color); popover.close()">
                 Color {{color}}
               </button>
             </div>
             <ng-container *ngSwitchDefault>
-              <button class="btn btn-sm btn-light action" (click)="popover.close(); playCard(card)">Play</button>
+              <button class="btn btn-sm btn-light action" (click)="playCard(card) && popover.close()">Play</button>
               <button class="btn btn-sm btn-secondary action"
-                (click)="popover.close(); discardCard(card)">Discard</button>
+                (click)="discardCard(card); popover.close()">Discard</button>
             </ng-container>
           </ng-container>
 
           <ng-container *ngSwitchDefault>
             <button class="btn btn-sm action" *ngIf="!isColorful(card.color); else allColorActions"
-              [class]="getButtonClass(card.color)" (click)="popover.close(); notifyGiveHintRequest(card, card.color)">
+              [class]="getButtonClass(card.color)" (click)="notifyGiveHintRequest(card, card.color); popover.close()">
               Color {{card.color}}
             </button>
             <ng-template #allColorActions>
               <div class="d-flex flex-column">
                 <button *ngFor="let color of allSingleColors" class="btn btn-sm action" [class]="getButtonClass(color)"
-                  (click)="popover.close(); notifyGiveHintRequest(card, color)">
+                  (click)="notifyGiveHintRequest(card, color); popover.close()">
                   Color {{color}}
                 </button>
               </div>

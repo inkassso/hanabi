@@ -84,16 +84,16 @@ export class PlayerHandComponent implements OnInit {
 
   flipped?: Card;
 
-  playCard(card: Card): void {
+  playCard(card: Card): boolean {
     const player = assert(this.player, 'Player');
     if (isColorful(card.color)) {
       // only flip the card, the player has yet to choose the color
       this.flipped = card;
       this.blockRequest.next(!!card);
+      return false;
     }
-    else {
-      this.delayWithCardFlip(card, () => player.playCard(card));
-    }
+    this.delayWithCardFlip(card, () => player.playCard(card));
+    return true;
   }
 
   discardCard(card: Card): void {
