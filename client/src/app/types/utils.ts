@@ -21,3 +21,10 @@ export function shuffle(array: any[]) {
 
   return array;
 }
+
+export function assert<T>(value: T | undefined, name?: string): T {
+  if (value == undefined) {
+    throw new Error(`${name ?? 'Value'} is ${value}`);
+  }
+  return value;
+}

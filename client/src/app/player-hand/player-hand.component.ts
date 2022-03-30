@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Placement } from '@ng-bootstrap/ng-bootstrap';
-import { Card, CardColor, cardColors, cardHigh, CardNumber, colorToBootstrap, isColorful, Player, SingleColor } from '../types';
+import { assert, Card, CardColor, cardColors, cardHigh, CardNumber, colorToBootstrap, isColorful, Player, SingleColor } from '../types';
 
 export interface IHintRequest {
   to: Player;
   card: Card;
   hint: SingleColor | CardNumber;
 }
+
+const actionDelayMs = 1800; // the flip animation takes 0.8s
 
 @Component({
   selector: 'app-player-hand',
@@ -62,37 +64,49 @@ export class PlayerHandComponent implements OnInit {
     return this.isActive ? i : cardHigh - i;
   }
 
-  flippedColorful?: Card;
+  flipped?: Card;
 
   playCard(card: Card): void {
-    if (!this.player) {
-      throw new Error('Player not defined');
-    }
-    if (!isColorful(card.color)) {
-      this.player.playCard(card);
+    const player = assert(this.player, 'Player');
+    if (isColorful(card.color)) {
+      // only flip the card, the player has yet to choose the color
+      this.flipped = card;
+      this.blockRequest.next(!!card);
     }
     else {
-      this.setFlippedColorful(card);
+      this.delayWithCardFlip(card, () => player.playCard(card));
     }
+  }
+
+  discardCard(card: Card): void {
+    const player = assert(this.player, 'Player');
+    this.delayWithCardFlip(card, () => player.discardCard(card));
   }
 
   playFlippedColorful(color: SingleColor): void {
-    if (!this.player) {
-      throw new Error('Player not defined');
+    const player = assert(this.player, 'Player');
+    const flipped = assert(this.flipped, 'Flipped colorful');
+    if (!isColorful(flipped.color)) {
+      throw new Error('Flipped card is not a colorful card');
     }
-    if (!this.flippedColorful) {
-      throw new Error('No colorful card flipped');
-    }
-    this.player.playCard(this.flippedColorful, color);
-    this.setFlippedColorful();
+    this.delayWithCardFlip(flipped, () => {
+      player.playCard(flipped, color);
+      this.blockRequest.next(false);
+    });
   }
 
   isCardDisabled(card: Card): boolean {
-    return this.isDisabled || (!!this.flippedColorful && card !== this.flippedColorful);
+    return this.isDisabled || (!!this.flipped && card !== this.flipped);
   }
 
-  private setFlippedColorful(card?: Card): void {
-    this.flippedColorful = card;
-    this.blockRequest.next(!!card);
+  private delayWithCardFlip(card: Card, action: () => any, delay: number = actionDelayMs): unknown {
+    this.flipped = card;
+    return setTimeout(() => {
+      try {
+        action();
+      } finally {
+        this.flipped = undefined;
+      }
+    }, delay);
   }
 }

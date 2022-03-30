@@ -2,7 +2,7 @@
   <h4>{{player.name }}</h4>
   <div class="d-flex flex-column position-relative hand">
     <div *ngFor="let card of player.cards; let i = index" class="card-wrapper">
-      <app-card [card]="card" [isFlipped]="isActive && card !== flippedColorful" [flipDelay]="getFlipDelay(i)"
+      <app-card [card]="card" [isFlipped]="isActive && card !== flipped" [flipDelay]="getFlipDelay(i)"
         [ngbPopover]="popContent" [popoverTitle]="popTitle" popoverClass="w-200 shadow" autoClose="outside"
         [disablePopover]="isCardDisabled(card)" [placement]="popoverPlacement"
         [attr.role]="isCardDisabled(card) ? undefined : 'button'">
@@ -10,8 +10,8 @@
 
       <ng-template #popTitle>
         <div [ngSwitch]="true" class="d-flex justify-content-around align-items-center">
-          <ng-container *ngSwitchCase="isActive" [ngSwitch]="flippedColorful">
-            <span *ngSwitchCase="card">Select Firework Color</span>
+          <ng-container *ngSwitchCase="isActive" [ngSwitch]="true">
+            <span *ngSwitchCase="card === flipped && isColorful(card)">Select Firework Color</span>
             <span *ngSwitchDefault>Select Action</span>
           </ng-container>
           <span *ngSwitchDefault>Give Hint</span>
@@ -19,8 +19,8 @@
       </ng-template>
       <ng-template #popContent>
         <div class="d-flex flex-row justify-content-around align-items-center" [ngSwitch]="true">
-          <ng-container *ngSwitchCase="isActive" [ngSwitch]="flippedColorful">
-            <div *ngSwitchCase="card" class="d-flex flex-column">
+          <ng-container *ngSwitchCase="isActive" [ngSwitch]="true">
+            <div *ngSwitchCase="card === flipped && isColorful(card.color)" class="d-flex flex-column">
               <!-- TODO show only colors which are applicable, error otherwise -->
               <button *ngFor="let color of allSingleColors" class="btn btn-sm action" [class]="getButtonClass(color)"
                 (click)="playFlippedColorful(color)">
@@ -29,7 +29,7 @@
             </div>
             <ng-container *ngSwitchDefault>
               <button class="btn btn-sm btn-light action" (click)="playCard(card)">Play</button>
-              <button class="btn btn-sm btn-secondary action" (click)="player.discardCard(card)">Discard</button>
+              <button class="btn btn-sm btn-secondary action" (click)="discardCard(card)">Discard</button>
             </ng-container>
           </ng-container>
 
