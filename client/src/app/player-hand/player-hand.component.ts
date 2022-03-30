@@ -33,7 +33,7 @@ export class PlayerHandComponent implements OnInit {
   hintRequest = new EventEmitter<IHintRequest>();
 
   @Output()
-  notifyFlip = new EventEmitter<boolean>();
+  blockRequest = new EventEmitter<boolean>();
 
   readonly isColorful = isColorful;
   readonly allSingleColors = cardColors;
@@ -93,6 +93,6 @@ export class PlayerHandComponent implements OnInit {
 
   private setFlippedColorful(card?: Card): void {
     this.flippedColorful = card;
-    this.notifyFlip.next(!!card);
+    this.blockRequest.next(!!card);
   }
 }
