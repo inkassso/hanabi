@@ -30,6 +30,7 @@ export class CardComponent implements OnInit {
     yellow: 'text-dark',
     colorful: 'text-light'
   };
+  readonly delayMultiplier = 60;
 
   get colorClasses(): string[] | undefined {
     if (!this.card) {

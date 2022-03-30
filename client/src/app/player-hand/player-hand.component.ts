@@ -107,10 +107,9 @@ export class PlayerHandComponent implements OnInit {
     if (!isColorful(flipped.color)) {
       throw new Error('Flipped card is not a colorful card');
     }
-    this.delayWithCardFlip(flipped, () => {
-      player.playCard(flipped, color);
-      this.blockRequest.next(false);
-    });
+    player.playCard(flipped, color);
+    this.flipped = undefined;
+    this.blockRequest.next(false);
   }
 
   isCardDisabled(card: Card): boolean {
