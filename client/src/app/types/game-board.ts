@@ -1,7 +1,8 @@
+import { BehaviorSubject } from "rxjs";
 import { Card, CardNumber, isColorful, SingleColor } from "./card";
 import { DiscardPile } from "./discard-pile";
 import { DrawDeck } from "./draw-deck";
-import { DrawDeckDepletedError, StormTokensDepletedError } from "./error";
+import { StormTokensDepletedError } from "./errors";
 import { Player } from "./player";
 
 type Table = {
@@ -20,6 +21,8 @@ export class GameBoard {
 
   private readonly initialNoteTokens: number;
   private readonly initialStormTokens: number;
+
+  readonly drawDeckDepleted$ = new BehaviorSubject<Player | undefined>(undefined);
 
   constructor(
     public noteTokens: number,
@@ -109,9 +112,15 @@ export class GameBoard {
 
   private drawCard(player: Player): void {
     if (!this.drawDeck.hasCards()) {
-      throw new DrawDeckDepletedError(`All cards have been used up, player ${player.name} is not getting a card anymore.`);
+      return;
     }
+
     const newCard = this.drawDeck.drawCard();
     player.addCard(newCard);
+
+    if (!this.drawDeck.hasCards()) {
+      console.log(`All cards have been used up, player ${player.name} is not getting a card anymore.`);
+      this.drawDeckDepleted$.next(player);
+    }
   }
 }

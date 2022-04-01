@@ -43,6 +43,11 @@ export class GameComponent {
         if (e) {
           this.end();
         }
+      }),
+      this.logic.drawDeckDepleted$.subscribe(player => {
+        if (player) {
+          this.toastr.info(`Player ${player.name} depleted the draw deck.`, 'Last round');
+        }
       })
     ];
   }

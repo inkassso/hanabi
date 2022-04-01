@@ -2,7 +2,7 @@ import { BehaviorSubject } from "rxjs";
 import { IAction } from "./actions";
 import { DiscardPile } from "./discard-pile";
 import { DrawDeck } from "./draw-deck";
-import { GameOverError } from "./error";
+import { GameOverError, LastRoundPlayerError } from "./errors";
 import { GameBoard } from "./game-board";
 import { Player } from "./player";
 
@@ -20,6 +20,7 @@ export class GameLogic {
 
   error$ = new BehaviorSubject<Error | undefined>(undefined);
   gameOver$ = new BehaviorSubject<GameOverError | undefined>(undefined);
+  drawDeckDepleted$ = new BehaviorSubject<Player | undefined>(undefined);
 
   readonly drawDeck = new DrawDeck();
   readonly discardPile = new DiscardPile();
@@ -28,6 +29,8 @@ export class GameLogic {
 
   readonly players: Player[];
   private playerOnTurn = 0;
+  private lastPlayerToPlay: Player | undefined;
+  private lastRoundEnabled = false;
 
   get activePlayer(): Player {
     return this.players[this.playerOnTurn];
@@ -54,6 +57,11 @@ export class GameLogic {
     for (const player of this.players) {
       player.action$.subscribe(action => this.failSafe(() => this.executePlayerAction(action)));
     }
+    this.gameBoard.drawDeckDepleted$.subscribe(playerLastDrawing => {
+      this.lastPlayerToPlay = playerLastDrawing;
+      this.lastRoundEnabled = false;
+      this.drawDeckDepleted$.next(playerLastDrawing);
+    });
   }
 
   private executePlayerAction(action: IAction): void {
@@ -76,6 +84,14 @@ export class GameLogic {
   }
 
   private nextPlayerTurn(): void {
+    if (this.activePlayer === this.lastPlayerToPlay) {
+      if (this.lastRoundEnabled) {
+        throw new LastRoundPlayerError(`All cards have been used up and last round was played.`);
+      }
+      else {
+        this.lastRoundEnabled = true;
+      }
+    }
     this.playerOnTurn = (this.playerOnTurn + 1) % this.players.length;
   }
 
