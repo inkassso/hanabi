@@ -12,25 +12,17 @@ $card-offset-y: 0
   height: card.$card-height + ($cards-in-hand - 1) * $card-offset-y
   min-width: #{card.$card-width * 1.64 + $cards-in-hand * $card-offset-x}
 
-@mixin all-siblings($select, $limit: 4)
-  $nester: ' + *'
-  @for $i from 1 through $limit
-    $select: $select + $nester
-    #{$select}
-      @content
-
 .card-wrapper
   position: absolute
   transition: transform ease 300ms
 
-  @for $i from 1 through $cards-in-hand
-    &:nth-child(#{$i})
-      left: #{$card-offset-x * ($i - 1)}rem
-      top: #{$card-offset-y * ($i - 1)}rem
+  @for $i from 0 to $cards-in-hand
+    &:nth-child(#{$i + 1})
+      left: #{$card-offset-x * $i}rem
+      top: #{$card-offset-y * $i}rem
 
-  &:hover
-    @include all-siblings('', $cards-in-hand - 1)
-      transform: translateX(64%) rotateY(30deg)
+  &:hover ~ *   // selector for all subsequent siblings
+    transform: translateX(64%) rotateY(30deg)
 
 .action
   margin: 0.2rem

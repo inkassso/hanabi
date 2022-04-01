@@ -5,6 +5,7 @@
 
 $card-offset-x: 2
 $card-offset-y: 0.2
+$max-cards-in-firework: 5
 
 .firework
   width: card.$card-width
@@ -16,9 +17,12 @@ $card-offset-y: 0.2
     border: 1px dashed black
     opacity: 0.3
 
-  &:not(.finished)
-    > *
-      position: absolute
-    @for $i from 1 through 5
-      > :nth-child(#{$i})
-        transform: translate(#{$card-offset-x * ($i - 1)}rem, #{$card-offset-y * ($i - 1)}rem)
+  > *
+    position: absolute
+    transition: transform ease 300ms
+
+    &:hover, &:hover ~ * // not yet supported preceding sibling selector: , &:has(~ :hover)
+      z-index: 100 // show expanded firework over other fireworks
+      @for $i from 0 to $max-cards-in-firework
+        &:nth-child(#{$i + 1})
+          transform: translate(#{$card-offset-x * $i}rem, #{$card-offset-y * $i}rem)
