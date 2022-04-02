@@ -2,7 +2,7 @@ export const cardLow = 1;
 const cardHighExclusive = 6;
 export const cardHigh = cardHighExclusive - 1;
 
-export const cardNumbers = Array.from(Array(cardHigh).keys()).slice(1);
+export const cardNumbers = Array.from(Array(cardHighExclusive).keys()).slice(1);
 
 type PrependNextNum<A extends Array<unknown>> = A['length'] extends infer T ? ((t: T, ...a: A) => void) extends ((...x: infer X) => void) ? X : never : never;
 type EnumerateInternal<A extends Array<unknown>, N extends number> = { 0: A, 1: EnumerateInternal<PrependNextNum<A>, N> }[N extends A['length'] ? 0 : 1];

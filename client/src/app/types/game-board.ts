@@ -34,7 +34,7 @@ export class GameBoard {
     this.initialStormTokens = stormTokens;
   }
 
-  giveHint(from: Player, to: Player, card: Card, hint: CardNumber | SingleColor): void {
+  giveHint(from: Player, to: Player, card: Card, hint: SingleColor | CardNumber): void {
     if (this.noteTokens <= 0) {
       throw new Error(`You're out of note tokens. Either discard a card to receive a note token, or play one.`);
     }
@@ -97,7 +97,6 @@ export class GameBoard {
     // whatever happens, replace player's card
     player.removeCard(card);
     this.drawCard(player);
-    // TODO handle last round after last card was drawn, possibly use more observables instead of throwing errors
 
     if (incorrectPlayReason) {
       console.log(`Card cannot be played:`, incorrectPlayReason);
