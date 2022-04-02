@@ -1,10 +1,31 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { Card, cardColors, cardHigh, colorToBootstrap, GameBoard, SingleColor } from '../types';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.sass']
+  styleUrls: ['./board.component.sass'],
+  animations: [
+    trigger('scaleDown', [
+      transition(':enter', [
+        style({
+          transform: 'scale(200%)',
+          opacity: 0
+        }),
+        animate('300ms ease')
+      ])
+    ]),
+    trigger('scaleUp', [
+      transition(':enter', [
+        style({
+          transform: 'scale(50%)',
+          opacity: 0
+        }),
+        animate('300ms ease')
+      ])
+    ])
+  ]
 })
 export class BoardComponent implements OnInit {
 

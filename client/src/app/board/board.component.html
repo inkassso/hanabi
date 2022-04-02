@@ -3,7 +3,7 @@
   <div *ngFor="let color of allSingleColors" class="d-flex justify-content-center align-items-center m-2 firework"
     [class.card]="isFireworkEmpty(color)" [class.finished]="isFireworkFinished(color)"
     [class]="getBackgroundClass(color)">
-    <app-card *ngFor="let card of getCards(color)" [card]="card"></app-card>
-    <i-bs *ngIf="isFireworkFinished(color)" name="check-circle" width="2rem" height="2rem"></i-bs>
+    <app-card *ngFor="let card of getCards(color)" [card]="card" role="button" @scaleDown></app-card>
+    <i-bs *ngIf="isFireworkFinished(color)" name="check-circle" width="2rem" height="2rem" @scaleUp></i-bs>
   </div>
 </div>
