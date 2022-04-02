@@ -19,7 +19,8 @@ $max-cards-in-firework: 5
 
   > *
     position: absolute
-    transition: transform ease 300ms
+    transition: transform 300ms ease, z-index 300ms // transition z-index to avoid glitching when collapsing a firework
+    z-index: 0 // required for z-index transition
 
     &:hover, &:hover ~ * // not yet supported preceding sibling selector: , &:has(~ :hover)
       z-index: 100 // show expanded firework over other fireworks
