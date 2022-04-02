@@ -17,13 +17,19 @@ $max-cards-in-firework: 5
     border: 1px dashed black
     opacity: 0.3
 
-  > *
+  $expanded-firework-z-index: 100
+
+  > app-card
     position: absolute
-    transition: transform 300ms ease, z-index 300ms // transition z-index to avoid glitching when collapsing a firework
+    $transition-length: 300ms
+    transition: transform $transition-length ease, z-index $transition-length // transition z-index to avoid glitching when collapsing a firework
     z-index: 0 // required for z-index transition
 
-    &:hover, &:hover ~ * // not yet supported preceding sibling selector: , &:has(~ :hover)
-      z-index: 100 // show expanded firework over other fireworks
+    &:hover, &:hover ~ app-card // not yet supported preceding sibling selector: , &:has(~ app-card:hover)
+      z-index: $expanded-firework-z-index // show expanded firework over other fireworks
       @for $i from 0 to $max-cards-in-firework
         &:nth-child(#{$i + 1})
           transform: translate(#{$card-offset-x * $i}rem, #{$card-offset-y * $i}rem)
+
+  > i
+    z-index: $expanded-firework-z-index + 10
