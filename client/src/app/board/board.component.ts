@@ -7,7 +7,7 @@ import { Card, cardColors, cardHigh, colorToBootstrap, GameBoard, SingleColor } 
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.sass'],
   animations: [
-    trigger('scaleDown', [
+    trigger('throwDown', [
       transition(':enter', [
         style({
           transform: 'scale(200%)',
@@ -16,13 +16,17 @@ import { Card, cardColors, cardHigh, colorToBootstrap, GameBoard, SingleColor } 
         animate('300ms ease')
       ])
     ]),
-    trigger('scaleUp', [
+    trigger('popUp', [
       transition(':enter', [
         style({
           transform: 'scale(50%)',
           opacity: 0
         }),
-        animate('300ms ease')
+        animate('200ms 300ms ease-out', style({ // 300ms delay is due to the card scaleDown animation
+          transform: 'scale(150%)',
+          opacity: 0.8
+        })),
+        animate('100ms ease-in')
       ])
     ])
   ]

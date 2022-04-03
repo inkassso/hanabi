@@ -16,7 +16,7 @@ const actionDelayMs = 1800; // the flip animation takes 0.8s
   templateUrl: './player-hand.component.html',
   styleUrls: ['./player-hand.component.sass'],
   animations: [
-    trigger('slideLeftScaleUp', [
+    trigger('slideLeftLiftUp', [
       transition(':enter', [
         style({
           transform: 'translateX(100%)',
