@@ -48,6 +48,12 @@ export class GameComponent {
         if (player) {
           this.toastr.info(`Player ${player.name} depleted the draw deck.`, 'Last round');
         }
+      }),
+      this.logic.gameFinished$.subscribe(player => {
+        if (player) {
+          this.toastr.success(`Congratulations! Player ${player.name} finished the last firework!`, 'You won!');
+          this.end();
+        }
       })
     ];
   }

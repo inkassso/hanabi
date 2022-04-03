@@ -1,5 +1,6 @@
 import { BehaviorSubject } from "rxjs";
 import { IAction } from "./actions";
+import { cardColors, SingleColor } from "./card";
 import { DiscardPile } from "./discard-pile";
 import { DrawDeck } from "./draw-deck";
 import { GameOverError, LastRoundPlayerError } from "./errors";
@@ -21,6 +22,7 @@ export class GameLogic {
   error$ = new BehaviorSubject<Error | undefined>(undefined);
   gameOver$ = new BehaviorSubject<GameOverError | undefined>(undefined);
   drawDeckDepleted$ = new BehaviorSubject<Player | undefined>(undefined);
+  gameFinished$ = new BehaviorSubject<Player | undefined>(undefined);
 
   readonly drawDeck = new DrawDeck();
   readonly discardPile = new DiscardPile();
@@ -31,6 +33,8 @@ export class GameLogic {
   private playerOnTurn = 0;
   private lastPlayerToPlay: Player | undefined;
   private lastRoundEnabled = false;
+
+  private finishedFireworks: SingleColor[] = [];
 
   get activePlayer(): Player {
     return this.players[this.playerOnTurn];
@@ -57,11 +61,23 @@ export class GameLogic {
     for (const player of this.players) {
       player.action$.subscribe(action => this.failSafe(() => this.executePlayerAction(action)));
     }
+
     this.gameBoard.drawDeckDepleted$.subscribe(playerLastDrawing => {
       this.lastPlayerToPlay = playerLastDrawing;
       this.lastRoundEnabled = false;
       this.drawDeckDepleted$.next(playerLastDrawing);
     });
+    this.gameBoard.fireworkCompleted$.subscribe(color => {
+      if (!color) return;
+      if (this.finishedFireworks.includes(color)) {
+        throw new Error(`${color} firework was already finished.`);
+      }
+      this.finishedFireworks.push(color);
+      if (cardColors.every(color => this.finishedFireworks.includes(color))) {
+        console.log('All fireworks have been assembled');
+        this.gameFinished$.next(this.activePlayer);
+      }
+    })
   }
 
   private executePlayerAction(action: IAction): void {

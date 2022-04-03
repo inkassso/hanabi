@@ -1,5 +1,5 @@
 import { BehaviorSubject } from "rxjs";
-import { Card, CardNumber, isColorful, SingleColor } from "./card";
+import { Card, CardNumber, cardNumbers, isColorful, SingleColor } from "./card";
 import { DiscardPile } from "./discard-pile";
 import { DrawDeck } from "./draw-deck";
 import { StormTokensDepletedError } from "./errors";
@@ -23,6 +23,7 @@ export class GameBoard {
   private readonly initialStormTokens: number;
 
   readonly drawDeckDepleted$ = new BehaviorSubject<Player | undefined>(undefined);
+  readonly fireworkCompleted$ = new BehaviorSubject<SingleColor | undefined>(undefined);
 
   constructor(
     public noteTokens: number,
@@ -106,6 +107,9 @@ export class GameBoard {
     }
     else {
       firework.push(card);
+      if (firework.length === cardNumbers.length) {
+        this.fireworkCompleted$.next(applicableColor);
+      }
     }
   }
 
