@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PlayerBoardComponent } from './player-board.component';
 
-describe('PlayerBoardComponent', () => {
+
+describe(PlayerBoardComponent.name, () => {
   let component: PlayerBoardComponent;
   let fixture: ComponentFixture<PlayerBoardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PlayerBoardComponent ]
+      declarations: [PlayerBoardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

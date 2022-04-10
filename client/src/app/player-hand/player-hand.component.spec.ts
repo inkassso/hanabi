@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PlayerHandComponent } from './player-hand.component';
 
-describe('PlayerHandComponent', () => {
+
+describe(PlayerHandComponent.name, () => {
   let component: PlayerHandComponent;
   let fixture: ComponentFixture<PlayerHandComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PlayerHandComponent ]
+      declarations: [PlayerHandComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

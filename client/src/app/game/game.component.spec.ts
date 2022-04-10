@@ -3,7 +3,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { GameComponent } from './game.component';
 
 
-describe('GameComponent', () => {
+describe(GameComponent.name, () => {
   let component: GameComponent;
   let fixture: ComponentFixture<GameComponent>;
 
