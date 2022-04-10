@@ -1,6 +1,10 @@
 # TODOs
 
 - Check all error handling is propagated correctly
+- Add game setup - player names and player order
+- Allow cards in the hand to be reordered
+- Show active player hints given by other players
+- MAY: Allow player to mark a card with an estimated value
 - Add a game over overlay darkening the board in the background
 - On game over or game finished, wait for the last turn to finish before quitting the game
 - Enable import of bootstrap dark mode in `src/styles.sass`
