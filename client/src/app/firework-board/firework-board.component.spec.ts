@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FireworkBoardComponent } from './firework-board.component';
 
-import { BoardComponent } from './board.component';
 
 describe('BoardComponent', () => {
-  let component: BoardComponent;
-  let fixture: ComponentFixture<BoardComponent>;
+  let component: FireworkBoardComponent;
+  let fixture: ComponentFixture<FireworkBoardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BoardComponent ]
+      declarations: [FireworkBoardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BoardComponent);
+    fixture = TestBed.createComponent(FireworkBoardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,11 +1,11 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Card, cardColors, cardHigh, colorToBootstrap, GameBoard, SingleColor } from '../types';
 
 @Component({
   selector: 'app-board',
-  templateUrl: './board.component.html',
-  styleUrls: ['./board.component.sass'],
+  templateUrl: './firework-board.component.html',
+  styleUrls: ['./firework-board.component.sass'],
   animations: [
     trigger('throwDown', [
       transition(':enter', [
@@ -31,12 +31,9 @@ import { Card, cardColors, cardHigh, colorToBootstrap, GameBoard, SingleColor } 
     ])
   ]
 })
-export class BoardComponent implements OnInit {
+export class FireworkBoardComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   @Input()
   board: GameBoard | undefined;
