@@ -8,7 +8,7 @@ $card-offset-x: 2
 $card-offset-y: 0
 
 .hand
-  perspective: 40rem // for the 3D effect
+  perspective: 60rem // for the 3D effect of rotating cards
   height: card.$card-height + ($cards-in-hand - 1) * $card-offset-y
   min-width: #{card.$card-width * 1.64 + $cards-in-hand * $card-offset-x}
 
@@ -31,7 +31,8 @@ $card-offset-y: 0
       left: #{$card-offset-x * $i}rem
       top: #{$card-offset-y * $i}rem
 
-  &:hover ~ *   // selector for all subsequent siblings
+  // do not shift right flipped cards and do not shift other cards when hovering a flipped card
+  &:not(.flipped):hover ~ .card-wrapper:not(.flipped)   // tilde selects all subsequent siblings
     transform: translateX(64%) rotateY(30deg)
 
   &.flipped
