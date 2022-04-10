@@ -14,9 +14,9 @@ $card-offset-y: 0
 
 .card-wrapper
   position: absolute
-  transition: transform ease 300ms
+  transition: all ease 300ms // animates transform (translation/rotation) and left (when a card is removed)
 
-  @for $i from 0 to $cards-in-hand
+  @for $i from 0 to ($cards-in-hand + 1)  // there is an additional card when playing/discarding (new animated in while the old aniamted out)
     &:nth-child(#{$i + 1})
       left: #{$card-offset-x * $i}rem
       top: #{$card-offset-y * $i}rem
