@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Placement } from '@ng-bootstrap/ng-bootstrap';
 import { assert, Card, CardColor, cardColors, cardHigh, CardNumber, colorToBootstrap, isColorful, Player, SingleColor } from '../types';
 
@@ -33,12 +33,9 @@ const actionDelayMs = 1800; // the flip animation takes 0.8s
     ])
   ]
 })
-export class PlayerHandComponent implements OnInit {
+export class PlayerHandComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   @Input()
   player: Player | undefined;

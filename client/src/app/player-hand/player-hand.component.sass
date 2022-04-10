@@ -12,6 +12,16 @@ $card-offset-y: 0
   height: card.$card-height + ($cards-in-hand - 1) * $card-offset-y
   min-width: #{card.$card-width * 1.64 + $cards-in-hand * $card-offset-x}
 
+@keyframes slideLeft
+  100%
+    transform: translateX(-20%)
+
+@keyframes moveFront
+  50%
+    z-index: 0
+  100%
+    z-index: 100
+
 .card-wrapper
   position: absolute
   transition: all ease 300ms // animates transform (translation/rotation) and left (when a card is removed)
@@ -23,6 +33,14 @@ $card-offset-y: 0
 
   &:hover ~ *   // selector for all subsequent siblings
     transform: translateX(64%) rotateY(30deg)
+
+  &.flipped
+    // play both animations in parallel
+    // - slide left and right
+    //   the keyframes only slide left, but the animation is immediately played backwards
+    // - move to front
+    //   increases z-index to render above other cards AND keeps the property after animation finishes
+    animation: slideLeft 300ms ease 0ms 2 alternate, moveFront 300ms linear 0ms 1 normal forwards
 
 .action
   margin: 0.2rem
