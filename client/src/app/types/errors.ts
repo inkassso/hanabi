@@ -11,7 +11,7 @@ export class StormTokensDepletedError extends GameOverError {
   }
 }
 
-export class LastRoundPlayerError extends GameOverError {
+export class LastRoundPlayedError extends GameOverError {
   constructor(message?: string) {
     super(message);
   }

@@ -3,7 +3,7 @@ import { IAction } from "./actions";
 import { cardColors, SingleColor } from "./card";
 import { DiscardPile } from "./discard-pile";
 import { DrawDeck } from "./draw-deck";
-import { GameOverError, LastRoundPlayerError } from "./errors";
+import { GameOverError, LastRoundPlayedError } from "./errors";
 import { GameBoard } from "./game-board";
 import { Player } from "./player";
 
@@ -102,7 +102,7 @@ export class GameLogic {
   private nextPlayerTurn(): void {
     if (this.activePlayer === this.lastPlayerToPlay) {
       if (this.lastRoundEnabled) {
-        throw new LastRoundPlayerError(`All cards have been used up and last round was played.`);
+        throw new LastRoundPlayedError(`All cards have been used up and last round was played.`);
       }
       else {
         this.lastRoundEnabled = true;
