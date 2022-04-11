@@ -1,9 +1,9 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input } from '@angular/core';
-import { Card, cardColors, cardHigh, colorToBootstrap, GameBoard, SingleColor } from '../types';
+import { Card, cardColors, cardHigh, colorToBootstrap, Fireworks, SingleColor } from '../types';
 
 @Component({
-  selector: 'app-board',
+  selector: 'app-firework-board',
   templateUrl: './firework-board.component.html',
   styleUrls: ['./firework-board.component.sass'],
   animations: [
@@ -36,12 +36,12 @@ export class FireworkBoardComponent {
   constructor() { }
 
   @Input()
-  board: GameBoard | undefined;
+  fireworks?: Fireworks;
 
   allSingleColors = cardColors;
 
-  getCards(color: SingleColor): Card[] {
-    return this.board?.table[color] ?? [];
+  getCards(color: SingleColor): readonly Card[] {
+    return (this.fireworks && this.fireworks[color]) ?? [];
   }
 
   isFireworkEmpty(color: SingleColor): boolean {

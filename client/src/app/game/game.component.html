@@ -10,7 +10,7 @@
       <div class="discard-pile">Discard Pile: <strong>{{logic.discardPile.cards.length}}</strong></div>
     </div>
   </div>
-  <app-board [board]="logic.gameBoard" class="my-3"></app-board>
+  <app-firework-board [fireworks]="logic.gameBoard.fireworks" class="my-3"></app-firework-board>
   <hr />
   <app-player-board [players]="logic.players" [activePlayer]="logic.activePlayer"></app-player-board>
 </div>
