@@ -1,16 +1,22 @@
 # TODOs
 
-- Check all error handling is propagated correctly
-- Add game setup - player names and player order
-- Allow cards in the hand to be reordered
-- Show active player hints given by other players
-- MAY: Allow player to mark a card with an estimated value
-- Add a game over overlay darkening the board in the background
-- On game over or game finished, wait for the last turn to finish before quitting the game
-- Enable import of bootstrap dark mode in `src/styles.sass`
-- Add build script to fix @forevolve's bootstrap dark mode
-  - The script has to replace `node_modules/` with `~`
-  - The replace needs to happen for files `node_modules/@forevolve/bootstrap-dark/scss/**/*`
+- MUST:
+  - Add game setup - player names and player order
+  - Show active player hints given by other players
+  - On game over or game finished, wait for the last turn to finish before quitting the game
+  - Show discard pile (allow iterating it through) and draw deck (without iterating through, only render number above)
+  - Check all error handling is propagated correctly
+- SHOULD:
+  - Add a game over overlay darkening the board in the background
+  - Allow cards in the hand to be reordered
+- MAY:
+  - Allow player to mark a card with an estimated value (any time)
+  - 
+  - Switch to Tailwind CSS
+  - Enable import of bootstrap dark mode in `src/styles.sass`
+  - Add build script to fix @forevolve's bootstrap dark mode
+    - The script has to replace `node_modules/` with `~`
+    - The replace needs to happen for files `node_modules/@forevolve/bootstrap-dark/scss/**/*`
 
 ## v2
 
