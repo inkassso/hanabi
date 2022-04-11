@@ -23,20 +23,24 @@ function createCards(): Card[] {
 }
 
 export class DrawDeck {
-  readonly cards: Card[];
+  private readonly _cards: Card[];
+
+  get cards(): readonly Card[] {
+    return this._cards;
+  }
 
   constructor() {
     const cards = createCards();
-    this.cards = shuffle(cards);
-    console.debug(`Draw deck initialized with ${this.cards.length} cards and shuffled`);
+    this._cards = shuffle(cards);
+    console.debug(`Draw deck initialized with ${this._cards.length} cards and shuffled`);
   }
 
   hasCards(): boolean {
-    return this.cards.length !== 0;
+    return this._cards.length !== 0;
   }
 
   drawCard(): Card {
-    const card = this.cards.pop();
+    const card = this._cards.pop();
     if (!card) {
       throw new Error('No more cards to draw, game over');
     }
@@ -44,9 +48,9 @@ export class DrawDeck {
   }
 
   drawCards(amount: number): Card[] {
-    if (this.cards.length < amount) {
-      throw new Error(`Not enough cards in deck to draw, currently having ${this.cards.length}, drawing ${amount}`);
+    if (this._cards.length < amount) {
+      throw new Error(`Not enough cards in deck to draw, currently having ${this._cards.length}, drawing ${amount}`);
     }
-    return this.cards.splice(-amount);
+    return this._cards.splice(-amount);
   }
 }

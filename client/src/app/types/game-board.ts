@@ -5,19 +5,27 @@ import { DrawDeck } from "./draw-deck";
 import { StormTokensDepletedError } from "./errors";
 import { Player } from "./player";
 
-type Table = {
-  [color in SingleColor]: Card[]
+type WritableFireworks = {
+  readonly [color in SingleColor]: Card[]
 };
+export type Fireworks = {
+  [key in keyof WritableFireworks]: readonly Card[];
+}
+
 
 export class GameBoard {
 
-  readonly table: Table = {
+  private readonly _fireworks: WritableFireworks = {
     blue: [],
     green: [],
     red: [],
     white: [],
     yellow: []
   };
+
+  get fireworks(): Fireworks {
+    return this._fireworks;
+  }
 
   private readonly initialNoteTokens: number;
   private readonly initialStormTokens: number;
@@ -79,7 +87,7 @@ export class GameBoard {
       applicableColor = card.color;
     }
 
-    const firework = this.table[applicableColor];
+    const firework = this._fireworks[applicableColor];
 
     let incorrectPlayReason: string | undefined;
     if (firework.length === 0) {

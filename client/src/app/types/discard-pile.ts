@@ -1,9 +1,13 @@
 import { Card } from "./card";
 
 export class DiscardPile {
-  readonly cards: Card[] = [];
+  private readonly _cards: Card[] = [];
+
+  get cards(): readonly Card[] {
+    return this._cards;
+  }
 
   discard(card: Card): void {
-    this.cards.push(card);
+    this._cards.push(card);
   }
 }
