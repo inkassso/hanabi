@@ -9,6 +9,7 @@
 - SHOULD:
   - Add a game over overlay darkening the board in the background
   - Allow cards in the hand to be reordered
+  - Add rules and hints page
 - MAY:
   - Allow player to mark a card with an estimated value (any time)
   - 
