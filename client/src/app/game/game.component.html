@@ -21,12 +21,11 @@
       <ng-container *ngIf="gameOverReason; else landingPage">
         <h3>Game over</h3>
         <p>{{gameOverReason.message}}</p>
-        <button class="btn btn-lg btn-primary" (click)="start()">Play again</button>
+        <button class="btn btn-lg btn-primary" (click)="gameOverReason = undefined">Play again</button>
       </ng-container>
 
       <ng-template #landingPage>
-        <h3>Would you like to</h3>
-        <button class="btn btn-lg btn-primary" (click)="start()">Play?</button>
+        <app-setup (setUp)="start($event)"></app-setup>
       </ng-template>
     </div>
   </div>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Card, cardColors, GameLogic, GameOverError, isColorful, Player } from '../types';
+import { GameSetup } from '../types/setup';
 
 @Component({
   selector: 'app-game',
@@ -34,8 +35,8 @@ export class GameComponent {
   private subscriptions: Subscription[] = [];
   gameOverReason: GameOverError | undefined;
 
-  start(): void {
-    this.logic = new GameLogic(['Lucas', 'George', 'Hayden', 'Ewan']);
+  start(setup: GameSetup): void {
+    this.logic = new GameLogic(setup);
     this.subscriptions = [
       this.logic.error$.subscribe(e => e && this.toastr.error(e.message)),
       this.logic.gameOver$.subscribe(e => {

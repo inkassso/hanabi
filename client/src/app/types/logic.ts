@@ -6,6 +6,7 @@ import { DrawDeck } from "./draw-deck";
 import { GameOverError, LastRoundPlayedError } from "./errors";
 import { GameBoard } from "./game-board";
 import { Player } from "./player";
+import { GameSetup } from "./setup";
 
 const defaults = {
   noteTokens: 8,
@@ -48,15 +49,15 @@ export class GameLogic {
     return this.gameBoard.stormTokens;
   }
 
-  constructor(playerNames: string[]) {
-    if (playerNames.length < playerSettings.min) {
-      throw new Error(`At least ${playerSettings.min} players must be playing, ${playerNames.length} defined.`);
+  constructor(setup: GameSetup) {
+    if (setup.playerNames.length < playerSettings.min) {
+      throw new Error(`At least ${playerSettings.min} players must be playing, ${setup.playerNames.length} defined.`);
     }
-    if (playerNames.length > playerSettings.max) {
-      throw new Error(`At most ${playerSettings.max} players can play, ${playerNames.length} defined.`);
+    if (setup.playerNames.length > playerSettings.max) {
+      throw new Error(`At most ${playerSettings.max} players can play, ${setup.playerNames.length} defined.`);
     }
-    const cardsToDraw = playerNames.length <= 3 ? 5 : 4;
-    this.players = playerNames.map(name => new Player(name, this.drawDeck.drawCards(cardsToDraw)));
+    const cardsToDraw = setup.playerNames.length <= 3 ? 5 : 4;
+    this.players = setup.playerNames.map(name => new Player(name, this.drawDeck.drawCards(cardsToDraw)));
 
     for (const player of this.players) {
       player.action$.subscribe(action => this.failSafe(() => this.executePlayerAction(action)));
