@@ -1,0 +1,14 @@
+<form [formGroup]="formGroup" class="d-flex flex-column">
+  <h2>Players</h2>
+  <div formArrayName="names">
+    <div *ngFor="let control of nameControls.controls; index as i" class="my-2 input-group">
+      <input type="text" class="form-control" #nameInput [formControlName]="i" [placeholder]="'Player ' + (i + 1)">
+      <button class="btn btn-danger" [disabled]="nameControls.length <= minPlayers" (click)="removePlayer(i)">
+        <i-bs name="x-lg"></i-bs>
+      </button>
+    </div>
+    <input *ngIf="nameControls.length < maxPlayers" class="form-control my-2"
+      [placeholder]="'Player ' + (nameControls.length + 1)" role="input" (focusin)="addPlayer()">
+  </div>
+  <button class="btn btn-primary mt-3" (click)="confirmPlayers()" [disabled]="!formGroup.valid">Confirm</button>
+</form>

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { checkCircle, NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
+import { checkCircle, NgxBootstrapIconsModule, xLg } from 'ngx-bootstrap-icons';
 import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { CardComponent } from './card/card.component';
@@ -11,9 +12,12 @@ import { FireworkBoardComponent } from './firework-board/firework-board.componen
 import { GameComponent } from './game/game.component';
 import { PlayerBoardComponent } from './player-board/player-board.component';
 import { PlayerHandComponent } from './player-hand/player-hand.component';
+import { SetupPlayerNamesComponent } from './setup-player-names/setup-player-names.setup.component';
+import { SetupComponent } from './setup/setup.component';
 
 const icons = {
-  checkCircle
+  checkCircle,
+  xLg
 };
 
 @NgModule({
@@ -23,7 +27,9 @@ const icons = {
     FireworkBoardComponent,
     CardComponent,
     PlayerHandComponent,
-    PlayerBoardComponent
+    PlayerBoardComponent,
+    SetupPlayerNamesComponent,
+    SetupComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +37,8 @@ const icons = {
     NgbModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    NgxBootstrapIconsModule.pick(icons)
+    NgxBootstrapIconsModule.pick(icons),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
