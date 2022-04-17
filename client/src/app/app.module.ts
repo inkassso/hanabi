@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { checkCircle, NgxBootstrapIconsModule, xLg } from 'ngx-bootstrap-icons';
+import { checkCircle, gripHorizontal, NgxBootstrapIconsModule, plusSquareDotted, xLg } from 'ngx-bootstrap-icons';
 import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { CardComponent } from './card/card.component';
@@ -18,7 +18,9 @@ import { SetupComponent } from './setup/setup.component';
 
 const icons = {
   checkCircle,
-  xLg
+  xLg,
+  gripHorizontal,
+  plusSquareDotted
 };
 
 @NgModule({

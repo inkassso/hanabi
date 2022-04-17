@@ -6,3 +6,9 @@
 
 .cdk-drag-animating
   transition: transform 300ms ease //cubic-bezier(0, 0, 0.2, 1)
+
+.cdk-drag-handle
+  cursor: grab
+
+  .cdk-drag-preview &
+    cursor: grabbing // TODO this doesn't work, the style is applied, but the browser doesn't show it

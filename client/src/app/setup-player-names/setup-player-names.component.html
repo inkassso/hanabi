@@ -10,9 +10,11 @@
         </button>
       </div>
     </div>
+    <div *ngIf="nameControls.length < maxPlayers" class="d-flex align-items-center text-muted">
+      <i-bs name="plus-square-dotted" class="me-3"></i-bs>
+      <input class="form-control my-2" [placeholder]="'Player ' + (nameControls.length + 1)" role="input"
+        (focusin)="addPlayer()">
     </div>
-    <input *ngIf="nameControls.length < maxPlayers" class="form-control my-2"
-      [placeholder]="'Player ' + (nameControls.length + 1)" role="input" (focusin)="addPlayer()">
   </div>
   <button class="btn btn-primary mt-3" (click)="confirmPlayers()" [disabled]="!formGroup.valid">Confirm</button>
 </form>
