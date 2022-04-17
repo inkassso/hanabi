@@ -1,3 +1,4 @@
+import { CdkDrag, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { range } from 'rxjs';
@@ -60,5 +61,9 @@ export class SetupPlayerNamesComponent implements OnInit {
       return;
     }
     this.names.emit(this.nameControls.value as string[]);
+  }
+
+  onDragDrop(e: CdkDragDrop<CdkDrag>): void {
+    moveItemInArray(this.nameControls.controls, e.previousIndex, e.currentIndex);
   }
 }
