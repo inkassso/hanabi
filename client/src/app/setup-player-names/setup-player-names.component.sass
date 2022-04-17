@@ -1,14 +1,14 @@
 .cdk-drag-placeholder
   opacity: 0.3
 
-.cdk-drop-list-dragging .cdk-drag
-  transition: transform 250ms ease //cubic-bezier(0, 0, 0.2, 1)
+.cdk-drop-list-dragging
+  cursor: grabbing
+
+  .cdk-drag
+    transition: transform 250ms ease
 
 .cdk-drag-animating
-  transition: transform 300ms ease //cubic-bezier(0, 0, 0.2, 1)
+  transition: transform 300ms ease
 
 .cdk-drag-handle
   cursor: grab
-
-  .cdk-drag-preview &
-    cursor: grabbing // TODO this doesn't work, the style is applied, but the browser doesn't show it

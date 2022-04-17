@@ -33,8 +33,6 @@ export class SetupPlayerNamesComponent implements OnInit {
     return this.formGroup.controls['names'] as FormArray;
   }
 
-  constructor() { }
-
   ngOnInit(): void {
     if (this.defaultPlayers < this.minPlayers) {
       throw new Error(`Minimum of ${this.minPlayers} players must be playing`);
@@ -64,6 +62,8 @@ export class SetupPlayerNamesComponent implements OnInit {
   }
 
   onDragDrop(e: CdkDragDrop<CdkDrag>): void {
-    moveItemInArray(this.nameControls.controls, e.previousIndex, e.currentIndex);
+    const names = this.nameControls;
+    moveItemInArray(names.controls, e.previousIndex, e.currentIndex);
+    names.updateValueAndValidity();
   }
 }
