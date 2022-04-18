@@ -1,7 +1,6 @@
 # TODOs
 
 - MUST:
-  - Add game setup - player names and player order
   - Show active player hints given by other players
   - On game over or game finished, wait for the last turn to finish before quitting the game
   - Show discard pile (allow iterating it through) and draw deck (without iterating through, only render number above)

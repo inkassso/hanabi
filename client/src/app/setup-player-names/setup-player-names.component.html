@@ -3,11 +3,17 @@
   <div formArrayName="names" cdkDropList (cdkDropListDropped)="onDragDrop($event)">
     <div *ngFor="let control of nameControls.controls; index as i" class="d-flex align-items-center" cdkDrag>
       <i-bs name="grip-horizontal" class="me-3" cdkDragHandle></i-bs>
-      <div class="my-2 input-group">
-        <input type="text" class="form-control" #nameInput [formControlName]="i" [placeholder]="'Player ' + (i + 1)">
-        <button class="btn btn-danger" [disabled]="nameControls.length <= minPlayers" (click)="removePlayer(i)">
-          <i-bs name="x-lg"></i-bs>
-        </button>
+      <div class="my-2">
+        <div class="input-group">
+          <input type="text" class="form-control" #nameInput [formControlName]="i" [placeholder]="'Player ' + (i + 1)">
+          <button class="btn btn-danger" [disabled]="nameControls.length <= minPlayers" (click)="removePlayer(i)">
+            <i-bs name="x-lg"></i-bs>
+          </button>
+        </div>
+        <span *ngIf="control.touched && control.errors" [ngSwitch]="true" class="fw-light text-danger text-error">
+          <ng-container *ngSwitchCase="!!control.errors['required']">Name is required.</ng-container>
+          <ng-container *ngSwitchCase="!!control.errors['unique']">Name must be unique.</ng-container>
+        </span>
       </div>
     </div>
     <div *ngIf="nameControls.length < maxPlayers" class="d-flex align-items-center text-muted">

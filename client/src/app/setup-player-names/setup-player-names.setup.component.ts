@@ -2,6 +2,7 @@ import { CdkDrag, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { range } from 'rxjs';
+import { ArrayValidators } from './array.validators';
 
 @Component({
   selector: 'app-setup-player-names',
@@ -26,7 +27,7 @@ export class SetupPlayerNamesComponent implements OnInit {
   nameInputs!: QueryList<ElementRef>;
 
   formGroup = new FormGroup({
-    names: new FormArray([])
+    names: new FormArray([], ArrayValidators.unique)
   });
 
   get nameControls(): FormArray {
