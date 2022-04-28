@@ -17,13 +17,13 @@ export function isCardNumber(val: any): val is CardNumber {
   return cardNumbers.includes(val);
 }
 
-export const cardColors = ['red', 'green', 'blue', 'white', 'yellow'] as const;
+export const singleColors = ['red', 'green', 'blue', 'white', 'yellow'] as const;
 /**
  * Possible distinct colors of firework cards
  */
-export type SingleColor = typeof cardColors[number];
+export type SingleColor = typeof singleColors[number];
 export function isSingleColor(val: any): val is SingleColor {
-  return cardColors.includes(val);
+  return singleColors.includes(val);
 }
 
 const colorful = 'colorful';

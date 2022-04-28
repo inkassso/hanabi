@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input } from '@angular/core';
-import { Card, cardColors, cardHigh, colorToBootstrap, Fireworks, SingleColor } from '../types';
+import { Card, cardHigh, colorToBootstrap, Fireworks, SingleColor, singleColors } from '../types';
 
 @Component({
   selector: 'app-firework-board',
@@ -38,7 +38,7 @@ export class FireworkBoardComponent {
   @Input()
   fireworks?: Fireworks;
 
-  allSingleColors = cardColors;
+  allSingleColors = singleColors;
 
   getCards(color: SingleColor): readonly Card[] {
     return (this.fireworks && this.fireworks[color]) ?? [];

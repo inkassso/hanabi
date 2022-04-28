@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { Card, cardColors, GameLogic, GameOverError, isColorful, Player } from '../types';
+import { Card, GameLogic, GameOverError, isColorful, Player, singleColors } from '../types';
 import { GameSetup } from '../types/setup';
 
 @Component({
@@ -30,7 +30,7 @@ export class GameComponent {
   }
 
   readonly isColorful = isColorful;
-  readonly allSingleColors = cardColors;
+  readonly allSingleColors = singleColors;
 
   private subscriptions: Subscription[] = [];
   gameOverReason: GameOverError | undefined;

@@ -1,6 +1,6 @@
 import { BehaviorSubject } from "rxjs";
 import { IAction } from "./actions";
-import { cardColors, SingleColor } from "./card";
+import { SingleColor, singleColors } from "./card";
 import { DiscardPile } from "./discard-pile";
 import { DrawDeck } from "./draw-deck";
 import { GameOverError, LastRoundPlayedError } from "./errors";
@@ -74,7 +74,7 @@ export class GameLogic {
         throw new Error(`${color} firework was already finished.`);
       }
       this.finishedFireworks.push(color);
-      if (cardColors.every(color => this.finishedFireworks.includes(color))) {
+      if (singleColors.every(color => this.finishedFireworks.includes(color))) {
         console.log('All fireworks have been assembled');
         this.gameFinished$.next(this.activePlayer);
       }

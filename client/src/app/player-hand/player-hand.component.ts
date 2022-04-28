@@ -1,7 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Placement } from '@ng-bootstrap/ng-bootstrap';
-import { assert, Card, CardColor, cardColors, cardHigh, CardNumber, colorToBootstrap, isColorful, Player, SingleColor } from '../types';
+import { assert, Card, CardColor, cardHigh, CardNumber, colorToBootstrap, isColorful, Player, SingleColor, singleColors } from '../types';
 
 export interface IHintRequest {
   to: Player;
@@ -53,7 +53,7 @@ export class PlayerHandComponent {
   blockRequest = new EventEmitter<boolean>();
 
   readonly isColorful = isColorful;
-  readonly allSingleColors = cardColors;
+  readonly allSingleColors = singleColors;
   readonly popoverPlacement: Placement[] = [
     'top', 'top-start', 'top-left', 'top-end', 'top-right',
     'start', 'left', 'start-top', 'left-top', 'start-bottom', 'left-bottom',

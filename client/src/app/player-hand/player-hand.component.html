@@ -12,7 +12,7 @@
       <ng-template #popTitle>
         <div [ngSwitch]="true" class="d-flex justify-content-around align-items-center">
           <ng-container *ngSwitchCase="isActive" [ngSwitch]="true">
-            <span *ngSwitchCase="card === flipped && isColorful(card)">Select Firework Color</span>
+            <span *ngSwitchCase="card === flipped && isColorful(card.color)">Select Firework Color</span>
             <span *ngSwitchDefault>Select Action</span>
           </ng-container>
           <span *ngSwitchDefault>Give Hint</span>
