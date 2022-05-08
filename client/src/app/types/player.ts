@@ -62,9 +62,9 @@ export class Player {
   }
 
   removeCard(card: Card): void {
-    const cardIndex = this.heldCards.reduce<number | undefined>((found, hc, i) => found ?? hc.card === card ? i : undefined, undefined);
+    const cardIndex = this.heldCards.reduce<number | undefined>((found, hc, i) => found ?? (hc.card === card ? i : undefined), undefined);
     if (cardIndex === undefined) {
-      throw new Error(`Player ${this.name} does not have card ${card.toString()}`);
+      throw new Error(`Player ${this.name} does not have card ${card.toString()}.`);
     }
     this.heldCards.splice(cardIndex, 1);
   }
