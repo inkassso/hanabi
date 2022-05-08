@@ -1,7 +1,8 @@
 # TODOs
 
 - MUST:
-  - Show active player hints given by other players
+  - Animate active player hints given by other players
+    - Fix stickies not being animated with card turnaround
   - On game over or game finished, wait for the last turn to finish before quitting the game
   - Show discard pile (allow iterating it through) and draw deck (without iterating through, only render number above)
   - Check all error handling is propagated correctly
