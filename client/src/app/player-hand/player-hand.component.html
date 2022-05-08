@@ -56,6 +56,16 @@
           </ng-container>
         </div>
       </ng-template>
+
+      <div *ngIf="isActive && hc.hasHints"
+        class="d-flex flex-column justify-content-around align-items-center shadow position-absolute p-3 fs-5 sticky-note">
+        <strong>
+          <ng-container *ngIf="hc.colorHinted as color">{{color}}</ng-container>
+        </strong>
+        <strong>
+          <ng-container *ngIf="hc.numberHinted as number">{{number}}</ng-container>
+        </strong>
+      </div>
     </div>
   </div>
 </ng-container>

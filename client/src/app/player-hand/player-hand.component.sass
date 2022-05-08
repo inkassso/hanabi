@@ -43,5 +43,25 @@ $card-offset-y: 0
     //   increases z-index to render above other cards AND keeps the property after animation finishes
     animation: slideLeft 300ms ease 0ms 2 alternate, moveFront 300ms linear 0ms 1 normal forwards
 
+  .sticky-note
+    background: #ffc
+    height: 5rem
+    aspect-ratio: 1
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%) rotate(-6deg)
+    color: black
+
+  &:nth-child(even) .sticky-note
+    transform: translate(-50%, -50%) rotate(4deg)
+    background: #cfc
+
+  &:nth-child(3n) .sticky-note
+    transform: translate(-50%, -50%) rotate(-3deg)
+    background: #ccf
+
+  &:nth-child(5n) .sticky-note
+    transform: translate(-50%, -50%) rotate(5deg)
+
 .action
   margin: 0.2rem

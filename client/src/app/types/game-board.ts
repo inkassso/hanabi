@@ -57,7 +57,8 @@ export class GameBoard {
       throw new Error(`Hint ${hint} does not describe card ${card.toString()}.`);
     }
     console.log(`Player ${from.name} is giving ${to.name} a hint on card ${card.toString()}: ${hint}`);
-    // TODO implement
+
+    to.receiveHint(card, hint);
 
     --this.noteTokens;
   }
