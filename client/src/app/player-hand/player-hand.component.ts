@@ -1,7 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Placement } from '@ng-bootstrap/ng-bootstrap';
-import { assert, Card, CardColor, cardHigh, CardNumber, colorToBootstrap, isColorful, Player, SingleColor, singleColors } from '../types';
+import { assert, Card, CardColor, cardHigh, CardNumber, colorToBootstrap, HeldCard, isColorful, Player, SingleColor, singleColors } from '../types';
 
 export interface IHintRequest {
   to: Player;
@@ -60,13 +60,13 @@ export class PlayerHandComponent {
     'end', 'right', 'end-top', 'right-top', 'end-bottom', 'right-bottom'
   ];
 
-  notifyGiveHintRequest(card: Card, hint: SingleColor | CardNumber): void {
+  notifyGiveHintRequest(hc: HeldCard, hint: SingleColor | CardNumber): void {
     if (!this.player) {
       throw new Error('Player is not defined.');
     }
     this.hintRequest.next({
       to: this.player,
-      card,
+      card: hc.card,
       hint
     });
   }
@@ -79,29 +79,29 @@ export class PlayerHandComponent {
     return this.isActive ? i : cardHigh - i;
   }
 
-  flipped?: Card;
+  flipped?: HeldCard;
 
-  playCard(card: Card): boolean {
+  playCard(hc: HeldCard): boolean {
     const player = assert(this.player, 'Player');
-    if (isColorful(card.color)) {
+    if (isColorful(hc.card.color)) {
       // only flip the card, the player has yet to choose the color
-      this.flipped = card;
-      this.blockRequest.next(!!card);
+      this.flipped = hc;
+      this.blockRequest.next(!!hc);
       return false;
     }
-    this.delayWithCardFlip(card, () => player.playCard(card));
+    this.delayWithCardFlip(hc, () => player.playCard(hc));
     return true;
   }
 
-  discardCard(card: Card): void {
+  discardCard(hc: HeldCard): void {
     const player = assert(this.player, 'Player');
-    this.delayWithCardFlip(card, () => player.discardCard(card));
+    this.delayWithCardFlip(hc, () => player.discardCard(hc));
   }
 
   playFlippedColorful(color: SingleColor): void {
     const player = assert(this.player, 'Player');
     const flipped = assert(this.flipped, 'Flipped colorful');
-    if (!isColorful(flipped.color)) {
+    if (!isColorful(flipped.card.color)) {
       throw new Error('Flipped card is not a colorful card');
     }
     player.playCard(flipped, color);
@@ -109,12 +109,12 @@ export class PlayerHandComponent {
     this.blockRequest.next(false);
   }
 
-  isCardDisabled(card: Card): boolean {
-    return this.isDisabled || (!!this.flipped && card !== this.flipped);
+  isCardDisabled(hc: HeldCard): boolean {
+    return this.isDisabled || (!!this.flipped && hc !== this.flipped);
   }
 
-  private delayWithCardFlip(card: Card, action: () => any, delay: number = actionDelayMs): unknown {
-    this.flipped = card;
+  private delayWithCardFlip(hc: HeldCard, action: () => any, delay: number = actionDelayMs): unknown {
+    this.flipped = hc;
     return setTimeout(() => {
       try {
         action();

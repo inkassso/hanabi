@@ -1,18 +1,18 @@
 <ng-container *ngIf="player; else loading">
   <h4>{{ player.name }}</h4>
   <div class="d-flex flex-column position-relative hand">
-    <div *ngFor="let card of player.cards; let i = index" class="card-wrapper" [class.flipped]="card === flipped"
+    <div *ngFor="let hc of player.cards; let i = index" class="card-wrapper" [class.flipped]="hc === flipped"
       @slideLeftLiftUp>
-      <app-card [card]="card" [isFlipped]="isActive && card !== flipped" [flipDelay]="getFlipDelay(i)"
+      <app-card [card]="hc.card" [isFlipped]="isActive && hc !== flipped" [flipDelay]="getFlipDelay(i)"
         [ngbPopover]="popContent" [popoverTitle]="popTitle" popoverClass="w-200 shadow" autoClose="outside"
-        [disablePopover]="isCardDisabled(card)" [placement]="popoverPlacement" triggers="manual" #popover="ngbPopover"
-        (click)="popover.open()" [attr.role]="isCardDisabled(card) ? undefined : 'button'">
+        [disablePopover]="isCardDisabled(hc)" [placement]="popoverPlacement" triggers="manual" #popover="ngbPopover"
+        (click)="popover.open()" [attr.role]="isCardDisabled(hc) ? undefined : 'button'">
       </app-card>
 
       <ng-template #popTitle>
         <div [ngSwitch]="true" class="d-flex justify-content-around align-items-center">
           <ng-container *ngSwitchCase="isActive" [ngSwitch]="true">
-            <span *ngSwitchCase="card === flipped && isColorful(card.color)">Select Firework Color</span>
+            <span *ngSwitchCase="hc === flipped && isColorful(hc.card.color)">Select Firework Color</span>
             <span *ngSwitchDefault>Select Action</span>
           </ng-container>
           <span *ngSwitchDefault>Give Hint</span>
@@ -21,7 +21,7 @@
       <ng-template #popContent>
         <div class="d-flex flex-row justify-content-around align-items-center" [ngSwitch]="true">
           <ng-container *ngSwitchCase="isActive" [ngSwitch]="true">
-            <div *ngSwitchCase="card === flipped && isColorful(card.color)" class="d-flex flex-column">
+            <div *ngSwitchCase="hc === flipped && isColorful(hc.card.color)" class="d-flex flex-column">
               <!-- TODO show only colors which are applicable, error otherwise -->
               <button *ngFor="let color of allSingleColors" class="btn btn-sm action" [class]="getButtonClass(color)"
                 (click)="playFlippedColorful(color); popover.close()">
@@ -29,28 +29,29 @@
               </button>
             </div>
             <ng-container *ngSwitchDefault>
-              <button class="btn btn-sm btn-light action" (click)="playCard(card) && popover.close()">Play</button>
+              <button class="btn btn-sm btn-light action" (click)="playCard(hc) && popover.close()">Play</button>
               <button class="btn btn-sm btn-secondary action"
-                (click)="discardCard(card); popover.close()">Discard</button>
+                (click)="discardCard(hc); popover.close()">Discard</button>
             </ng-container>
           </ng-container>
 
           <ng-container *ngSwitchDefault>
-            <button class="btn btn-sm action" *ngIf="!isColorful(card.color); else allColorActions"
-              [class]="getButtonClass(card.color)" (click)="notifyGiveHintRequest(card, card.color); popover.close()">
-              Color {{card.color}}
+            <button class="btn btn-sm action" *ngIf="!isColorful(hc.card.color); else allColorActions"
+              [class]="getButtonClass(hc.card.color)"
+              (click)="notifyGiveHintRequest(hc, hc.card.color); popover.close()">
+              Color {{hc.card.color}}
             </button>
             <ng-template #allColorActions>
               <div class="d-flex flex-column">
                 <button *ngFor="let color of allSingleColors" class="btn btn-sm action" [class]="getButtonClass(color)"
-                  (click)="notifyGiveHintRequest(card, color); popover.close()">
+                  (click)="notifyGiveHintRequest(hc, color); popover.close()">
                   Color {{color}}
                 </button>
               </div>
             </ng-template>
             <button class="btn btn-sm btn-secondary action"
-              (click)="popover.close(); notifyGiveHintRequest(card, card.number)">
-              Number {{card.number}}
+              (click)="popover.close(); notifyGiveHintRequest(hc, hc.card.number)">
+              Number {{hc.card.number}}
             </button>
           </ng-container>
         </div>
