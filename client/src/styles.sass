@@ -1,8 +1,123 @@
 /* You can add global styles to this file, and also import other style files */
 
+html
+  height: 100%
+  font-size: 125%
+  color-scheme: light dark
+  scrollbar-gutter: stable
+
+body
+  min-height: 100%
+
+@media (prefers-color-scheme: dark)
+  body
+    background-color: #212529
+    color: #f8f9fa
+
+  :root
+    color-scheme: dark
+    --bs-body-bg: #212529
+    --bs-body-color: #f8f9fa
+    --bs-form-invalid-color: #ff8f9a
+
+  .text-danger
+    color: #ff8f9a !important
+
+  .text-muted
+    color: #adb5bd !important
+
+  .popover.hanabi-popover
+    background-color: #343a40
+    border-color: #6c757d
+    color: #f8f9fa
+
+    .popover-header
+      background-color: #2b3035
+      border-color: #6c757d
+      color: #f8f9fa
+
+    .popover-body
+      color: #f8f9fa
+
+  .bs-popover-top.hanabi-popover > .popover-arrow
+    &::before
+      border-top-color: #6c757d
+
+    &::after
+      border-top-color: #343a40
+
+  .bs-popover-bottom.hanabi-popover > .popover-arrow
+    &::before
+      border-bottom-color: #6c757d
+
+    &::after
+      border-bottom-color: #343a40
+
+  .bs-popover-start.hanabi-popover > .popover-arrow
+    &::before
+      border-left-color: #6c757d
+
+    &::after
+      border-left-color: #343a40
+
+  .bs-popover-end.hanabi-popover > .popover-arrow
+    &::before
+      border-right-color: #6c757d
+
+    &::after
+      border-right-color: #343a40
+
+app-root
+  display: block
+  min-height: 100vh
+
 .bg-colorful
   background-image: linear-gradient(to bottom, #0d6efd, #198754, #f8f9fa, #ffc107, #dc3545)
   color: white
+
+.hanabi-card-blue,
+.hanabi-card-green,
+.hanabi-card-red,
+.hanabi-card-white,
+.hanabi-card-yellow,
+.hanabi-card-colorful
+  color-scheme: only light
+  forced-color-adjust: none
+
+.hanabi-card-blue
+  background-color: #0d6efd !important
+  color: #fff !important
+
+.hanabi-card-green
+  background-color: #198754 !important
+  color: #fff !important
+
+.hanabi-card-red
+  background-color: #dc3545 !important
+  color: #fff !important
+
+.hanabi-card-white
+  background-color: #fff !important
+  background-image: linear-gradient(#fff, #fff) !important
+  color: #212529 !important
+
+.hanabi-card-back
+  color-scheme: only light
+  background-color: #fff !important
+  color: #212529 !important
+
+@media (prefers-color-scheme: dark)
+  .hanabi-card-back
+    background-color: #495057 !important
+    color: #fff !important
+
+.hanabi-card-yellow
+  background-color: #ffc107 !important
+  color: #212529 !important
+
+.hanabi-card-colorful
+  background-image: linear-gradient(to bottom, #0d6efd, #198754, #f8f9fa, #ffc107, #dc3545) !important
+  color: #fff !important
 
 .w-200
   width: 200%

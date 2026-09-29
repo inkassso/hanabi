@@ -1,20 +1,33 @@
-<h1>Hanabi</h1>
-@if (logic(); as game) {
-  @defer (when game) {
-    <app-game-board [game]="game"></app-game-board>
-  } @loading {
-    <div class="d-flex justify-content-center p-5" role="status">Loading game...</div>
-  }
-} @else {
-  <div class="flex-grow-1 d-flex flex-column justify-content-center">
-    <div class="d-flex flex-column align-items-center">
+<div class="game-page" [class.in-game]="logic()">
+  <div class="game-title-header">
+    <h1 #pageTitle [class.landing-title-ready]="landingAnimationReady() && !landingTitleAnimationPlayed()">Hanabi</h1>
+    @if (logic()) {
+      <button type="button" class="btn btn-outline-secondary game-abort" aria-label="Return to setup"
+        title="Return to setup" (click)="end()">
+        <i-bs name="x-lg"></i-bs>
+      </button>
+    }
+  </div>
+  @if (logic(); as game) {
+    @defer (when game) {
+      <div class="game-board-enter">
+        <app-game-board [game]="game"></app-game-board>
+      </div>
+    } @loading {
+      <div class="d-flex justify-content-center p-5" role="status">Loading game...</div>
+    }
+  } @else {
+    <div class="landing-content" [class.initial-landing-content]="!landingTitleAnimationPlayed()"
+      [class.returning-to-setup]="returningToSetup()">
       @if (gameOverReason(); as gameOver) {
+      <div class="d-flex flex-column align-items-center">
         <h3>Game over</h3>
         <p>{{gameOver.message}}</p>
         <button class="btn btn-lg btn-primary" (click)="gameOverReason.set(undefined)">Play again</button>
+      </div>
       } @else {
         <app-setup (setUp)="start($event)"></app-setup>
       }
     </div>
-  </div>
-}
+  }
+</div>

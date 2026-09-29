@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { Card, CardColor, colorToBootstrap } from '../types';
+import { Card } from '../types';
 
 @Component({
   selector: 'app-card',
@@ -12,14 +12,6 @@ export class CardComponent {
   readonly isFlipped = input(false);
   readonly flipDelay = input(0);
 
-  private readonly colorToBootstrapFont: { [color in CardColor]: string } = {
-    blue: 'text-light',
-    green: 'text-light',
-    red: 'text-light',
-    white: 'text-dark',
-    yellow: 'text-dark',
-    colorful: 'text-light'
-  };
   readonly delayMultiplier = 60;
 
   readonly colorClasses = computed(() => {
@@ -27,9 +19,6 @@ export class CardComponent {
     if (!card) {
       return undefined;
     }
-    return [
-      'bg-' + colorToBootstrap[card.color],
-      this.colorToBootstrapFont[card.color]
-    ];
+    return 'hanabi-card-' + card.color;
   });
 }

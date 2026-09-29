@@ -1,6 +1,9 @@
 .cdk-drag-placeholder
   opacity: 0.3
 
+.player-row
+  overflow: hidden
+
 .cdk-drop-list-dragging
   cursor: grabbing
 
@@ -15,3 +18,13 @@
 
 .text-error
   font-size: 0.85rem
+
+.validation-message
+  overflow: hidden
+
+.validation-error
+  color: #b02a37
+
+@media (prefers-color-scheme: dark)
+  .validation-error
+    color: #ff8f9a

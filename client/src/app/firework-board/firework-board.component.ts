@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
 import { CardComponent } from '../card/card.component';
-import { Card, cardHigh, colorToBootstrap, Fireworks, SingleColor, singleColors } from '../types';
+import { Card, cardHigh, Fireworks, SingleColor, singleColors } from '../types';
 
 @Component({
   selector: 'app-firework-board',
@@ -57,6 +57,6 @@ export class FireworkBoardComponent {
     if (!this.isFireworkEmpty(color)) {
       return '';
     }
-    return 'bg-' + colorToBootstrap[color];
+    return 'hanabi-card-' + color;
   }
 }

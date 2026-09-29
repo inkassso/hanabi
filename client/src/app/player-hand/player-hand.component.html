@@ -1,10 +1,10 @@
 @if (player(); as currentPlayer) {
-  <h4>{{currentPlayer.name}}</h4>
+  <h4 [class.active-player]="isActive()">{{currentPlayer.name}}</h4>
   <div class="d-flex flex-column position-relative hand">
     @for (hc of currentPlayer.cards(); track hc; let i = $index) {
       <div class="card-wrapper" [class.flipped]="hc === flipped()" @slideLeftLiftUp>
         <app-card [card]="hc.card" [isFlipped]="isActive() && hc !== flipped()" [flipDelay]="getFlipDelay(i)"
-          [ngbPopover]="popContent" [popoverTitle]="popTitle" popoverClass="w-200 shadow" autoClose="outside"
+          [ngbPopover]="popContent" [popoverTitle]="popTitle" popoverClass="hanabi-popover w-200 shadow" autoClose="outside"
           [disablePopover]="isCardDisabled(hc)" [placement]="popoverPlacement" triggers="manual" #popover="ngbPopover"
           (click)="popover.open()" [attr.role]="isCardDisabled(hc) ? undefined : 'button'">
         </app-card>

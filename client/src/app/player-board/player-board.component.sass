@@ -2,6 +2,21 @@
   display: block
 
 .players
+  justify-content: space-around
+  gap: 1rem 2rem
+  padding: 0 1rem 1rem
+
+  > div
+    flex: 0 1 auto
+
   .active
-    background-color: lightblue
+    background-color: #add8e6 !important
+    color: #212529 !important
+    color-scheme: light
     border-radius: 0.5rem
+
+@media (prefers-color-scheme: dark)
+  .players .active
+    background-color: #343a40 !important
+    color: #f8f9fa !important
+    color-scheme: dark

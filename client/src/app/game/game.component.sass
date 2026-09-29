@@ -3,3 +3,102 @@
   display: flex
   flex-direction: column
   align-items: center
+  height: 100vh
+  min-height: 100vh
+
+.game-page
+  flex: 1
+  width: 100%
+  min-height: 0
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: 2rem
+
+.game-page.in-game
+  justify-content: flex-start
+  padding-top: 1rem
+  gap: 0
+
+  > .game-title-header
+    margin-bottom: 2rem
+
+.game-title-header
+  position: relative
+  width: fit-content
+  display: flex
+  justify-content: center
+  align-items: center
+
+  > h1
+    margin: 0
+
+.game-page.in-game .game-title-header
+  width: 100%
+
+.game-abort
+  position: absolute
+  right: 1rem
+
+.landing-content
+  width: fit-content
+
+.initial-landing-content
+  animation: form-appear 0.55s ease 1.35s both
+
+.returning-to-setup
+  animation: form-appear 0.55s ease both
+
+.game-board-enter
+  flex: 1
+  width: 100%
+  min-height: 0
+  display: flex
+  flex-direction: column
+  align-items: stretch
+  overflow-x: clip
+  animation: game-board-appear 0.55s ease 0.45s both
+
+  > app-game-board
+    flex: 1
+    width: 100%
+    min-height: 0
+
+.landing-title-ready
+  position: relative
+  z-index: 1
+  will-change: transform
+  animation: title-land 1.35s cubic-bezier(0.2, 0.75, 0.3, 1) both
+
+@keyframes title-land
+  0%
+    opacity: 0
+    transform: translateY(var(--landing-title-center-offset)) perspective(60rem) translateZ(35rem) scale(1.7)
+  40%
+    opacity: 1
+    transform: translateY(var(--landing-title-center-offset)) perspective(60rem) translateZ(0) scale(1)
+  100%
+    transform: translateY(0)
+
+@keyframes form-appear
+  from
+    opacity: 0
+    transform: translateY(1rem)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+@keyframes game-board-appear
+  from
+    opacity: 0
+    transform: translateY(-1rem)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+@media (prefers-reduced-motion: reduce)
+  .landing-title-ready,
+  .landing-content,
+  .game-board-enter
+    animation: none

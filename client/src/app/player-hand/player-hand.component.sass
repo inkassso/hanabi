@@ -12,6 +12,15 @@ $card-offset-y: 0
   height: card.$card-height + ($cards-in-hand - 1) * $card-offset-y
   min-width: #{card.$card-width * 1.64 + $cards-in-hand * $card-offset-x}
 
+.active-player
+  color: #212529 !important
+  color-scheme: light
+
+@media (prefers-color-scheme: dark)
+  .active-player
+    color: #f8f9fa !important
+    color-scheme: dark
+
 @keyframes slideLeft
   100%
     transform: translateX(-20%)

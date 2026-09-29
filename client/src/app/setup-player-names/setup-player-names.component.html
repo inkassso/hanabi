@@ -1,33 +1,37 @@
 <form class="d-flex flex-column" (submit)="confirmPlayers($event)">
-  <h2>Players</h2>
   <div cdkDropList (cdkDropListDropped)="onDragDrop($event)">
-    @for (name of playerNames().names; track $index; let i = $index) {
-      <div class="d-flex align-items-center" cdkDrag>
-        <i-bs name="grip-horizontal" class="me-3" cdkDragHandle></i-bs>
-        <div class="my-2">
-          <div class="input-group">
-            <input type="text" class="form-control" #nameInput [formField]="playerForm.names[i]"
-              [placeholder]="'Player ' + (i + 1)">
-            <button type="button" class="btn btn-danger" [disabled]="playerNames().names.length <= minPlayers()"
-              (click)="removePlayer(i)">
-              <i-bs name="x-lg"></i-bs>
-            </button>
-          </div>
-          @if (playerForm.names[i]().touched() && playerForm.names[i]().invalid()) {
-            <span class="fw-light text-danger text-error">
-              @for (error of playerForm.names[i]().errors(); track error.kind) {
-                <span>{{error.message}}</span>
+    @for (rowId of displayedRowIds(); track rowId; let i = $index) {
+      <div class="player-row" @playerRow>
+        @if (i < playerNames().names.length) {
+          <div class="d-flex align-items-center" cdkDrag>
+            <i-bs name="grip-horizontal" class="me-3" cdkDragHandle></i-bs>
+            <div class="my-2">
+              <div class="input-group">
+                <input type="text" class="form-control" #nameInput [formField]="playerForm.names[i]"
+                  [placeholder]="'Player ' + (i + 1)">
+                <button type="button" class="btn btn-danger" [disabled]="playerNames().names.length <= minPlayers()"
+                  (pointerdown)="preparePlayerRemoval(rowId)" (click)="removePlayer(i)">
+                  <i-bs name="x-lg"></i-bs>
+                </button>
+              </div>
+              @if (rowId !== suppressValidationForRow() && playerForm.names[i]().touched() && playerForm.names[i]().invalid()) {
+                <div class="validation-message" @validationMessage>
+                  <span class="fw-light validation-error text-error">
+                    @for (error of playerForm.names[i]().errors(); track error.kind) {
+                      <span>{{error.message}}</span>
+                    }
+                  </span>
+                </div>
               }
-            </span>
-          }
-        </div>
-      </div>
-    }
-    @if (playerNames().names.length < maxPlayers()) {
-      <div class="d-flex align-items-center text-muted">
-        <i-bs name="plus-square-dotted" class="me-3"></i-bs>
-        <input class="form-control my-2" [placeholder]="'Player ' + (playerNames().names.length + 1)" role="input"
-          (focusin)="addPlayer()">
+            </div>
+          </div>
+        } @else {
+          <div class="d-flex align-items-center text-muted">
+            <i-bs name="plus-square-dotted" class="me-3"></i-bs>
+            <input class="form-control my-2" [placeholder]="'Player ' + (playerNames().names.length + 1)" role="input"
+              (focusin)="addPlayer()">
+          </div>
+        }
       </div>
     }
   </div>

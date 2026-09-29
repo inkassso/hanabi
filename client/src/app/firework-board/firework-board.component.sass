@@ -17,6 +17,18 @@ $max-cards-in-firework: 5
     border: 1px dashed black
     opacity: 0.3
 
+  &.hanabi-card-white:empty
+    color-scheme: only light
+    background-color: #fff !important
+    background-image: linear-gradient(#fff, #fff) !important
+    background-clip: content-box
+    border-color: #495057
+    opacity: 1
+
+  @media (prefers-color-scheme: dark)
+    &.hanabi-card-white:empty
+      border-color: #adb5bd
+
   $expanded-firework-z-index: 100
 
   > app-card

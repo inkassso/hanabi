@@ -1,5 +1,5 @@
-<div class="w-100 h-100">
-  <div class="d-flex justify-content-center">
+<div class="game-layout">
+  <div class="game-stats d-flex justify-content-center">
     <div class="mx-5 tokens">
       <div class="note">Note tokens: <strong>{{game().noteTokens()}}</strong></div>
       <div class="storm">Storm tokens: <strong>{{game().stormTokens()}}</strong></div>
@@ -9,7 +9,9 @@
       <div class="discard-pile">Discard Pile: <strong>{{game().discardPile.cards().length}}</strong></div>
     </div>
   </div>
-  <app-firework-board [fireworks]="game().gameBoard.fireworks()" class="my-3"></app-firework-board>
-  <hr />
-  <app-player-board [players]="game().players" [activePlayer]="game().activePlayer()"></app-player-board>
+  <div class="gameplay-content">
+    <app-firework-board [fireworks]="game().gameBoard.fireworks()" class="my-3"></app-firework-board>
+    <hr />
+    <app-player-board [players]="game().players" [activePlayer]="game().activePlayer()"></app-player-board>
+  </div>
 </div>
