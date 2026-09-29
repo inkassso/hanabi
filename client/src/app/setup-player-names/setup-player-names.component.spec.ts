@@ -65,4 +65,27 @@ describe(SetupPlayerNamesComponent.name, () => {
     expect(rowsAfter[4].querySelector('.btn-danger')).toBeFalsy();
     expect(rowsAfter[4].querySelector('[placeholder="Player 5"]')).toBeTruthy();
   });
+
+  it('resets to three empty pristine player fields', () => {
+    component.playerNames.set({ names: ['Alice', 'Bob'] });
+    component.playerForm.names[0]().markAsDirty();
+    component.playerForm.names[0]().markAsTouched();
+
+    component.resetForm();
+
+    expect(component.playerNames().names).toEqual(['', '', '']);
+    expect(component.playerForm().dirty()).toBe(false);
+    expect(component.playerForm().touched()).toBe(false);
+    expect(component.playerForm.names[0]().dirty()).toBe(false);
+    expect(component.playerForm.names[0]().touched()).toBe(false);
+  });
+
+  it('initializes the form with previously submitted player names', () => {
+    const restoredFixture = TestBed.createComponent(SetupPlayerNamesComponent);
+    restoredFixture.componentRef.setInput('defaultPlayers', 2);
+    restoredFixture.componentRef.setInput('initialNames', ['Alice', 'Bob']);
+    restoredFixture.detectChanges();
+
+    expect(restoredFixture.componentInstance.playerNames().names).toEqual(['Alice', 'Bob']);
+  });
 });

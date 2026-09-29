@@ -36,6 +36,7 @@ export class SetupPlayerNamesComponent {
   readonly minPlayers = input(2);
   readonly maxPlayers = input(5);
   readonly defaultPlayers = input<number>();
+  readonly initialNames = input<string[]>([]);
   readonly names = output<string[]>();
   readonly nameInputs = viewChildren<ElementRef<HTMLInputElement>>('nameInput');
   readonly playerRowIds = signal<number[]>([]);
@@ -64,15 +65,15 @@ export class SetupPlayerNamesComponent {
   private readonly defaultPlayersEffect = effect(() => {
     const minPlayers = this.minPlayers();
     const maxPlayers = this.maxPlayers();
+    const initialNames = this.initialNames();
     const defaultPlayers = this.defaultPlayers() ?? minPlayers;
     if (defaultPlayers < minPlayers || defaultPlayers > maxPlayers) {
       throw new Error(`Default player count must be between ${minPlayers} and ${maxPlayers}`);
     }
-    this.playerNames.update(model => ({
-      names: model.names.length < defaultPlayers
-        ? [...model.names, ...Array.from({ length: defaultPlayers - model.names.length }, () => '')]
-        : model.names.slice(0, defaultPlayers)
-    }));
+    const names = initialNames.length === defaultPlayers
+      ? [...initialNames]
+      : Array.from({ length: defaultPlayers }, (_, index) => initialNames[index] ?? '');
+    this.playerNames.set({ names });
     this.playerRowIds.update(ids => [
       ...ids.slice(0, defaultPlayers),
       ...Array.from({ length: Math.max(0, defaultPlayers - ids.length) }, () => this.nextPlayerRowId++)
@@ -95,6 +96,17 @@ export class SetupPlayerNamesComponent {
 
   preparePlayerRemoval(rowId: number): void {
     this.suppressValidationForRow.set(rowId);
+  }
+
+  resetForm(): void {
+    const names = ['', '', ''];
+    this.playerForm().reset({ names });
+    this.playerRowIds.update(ids => [
+      ...ids.slice(0, names.length),
+      ...Array.from({ length: Math.max(0, names.length - ids.length) }, () => this.nextPlayerRowId++)
+    ]);
+    this.addRowId.set(this.nextPlayerRowId++);
+    this.suppressValidationForRow.set(undefined);
   }
 
   addPlayer(focus: boolean = true): void {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { GameSetup } from '../types/setup';
 import { SetupPlayerNamesComponent } from '../setup-player-names/setup-player-names.setup.component';
 
@@ -11,7 +11,8 @@ import { SetupPlayerNamesComponent } from '../setup-player-names/setup-player-na
 })
 export class SetupComponent {
 
-  readonly defaultRows = input(3);
+  readonly initialNames = input<string[]>(['', '', '']);
+  readonly defaultRows = computed(() => this.initialNames().length);
   readonly setUp = output<GameSetup>();
 
   nextStep(playerNames: string[]): void {

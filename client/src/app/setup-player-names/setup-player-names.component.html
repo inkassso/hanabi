@@ -35,5 +35,8 @@
       </div>
     }
   </div>
-  <button type="submit" class="btn btn-primary mt-3" [disabled]="playerForm().invalid()">Confirm</button>
+  <div class="d-flex justify-content-center gap-2 mt-3">
+    <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">Reset</button>
+    <button type="submit" class="btn btn-primary" [disabled]="playerForm().invalid()">Confirm</button>
+  </div>
 </form>

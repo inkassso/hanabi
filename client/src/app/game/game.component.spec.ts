@@ -26,4 +26,12 @@ describe(GameComponent.name, () => {
   it('keeps the setup screen available before a game starts', () => {
     expect(fixture.nativeElement.querySelector('app-setup')).toBeTruthy();
   });
+
+  it('requires explicit confirmation before aborting', () => {
+    component.requestAbort();
+    expect(component.confirmingAbort()).toBe(true);
+
+    component.cancelAbort();
+    expect(component.confirmingAbort()).toBe(false);
+  });
 });

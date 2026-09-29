@@ -2,10 +2,18 @@
   <div class="game-title-header">
     <h1 #pageTitle [class.landing-title-ready]="landingAnimationReady() && !landingTitleAnimationPlayed()">Hanabi</h1>
     @if (logic()) {
-      <button type="button" class="btn btn-outline-secondary game-abort" aria-label="Return to setup"
-        title="Return to setup" (click)="end()">
-        <i-bs name="x-lg"></i-bs>
-      </button>
+      @if (confirmingAbort()) {
+        <div class="game-abort-confirmation" role="alertdialog" aria-label="Confirm abort game" @abortConfirmation>
+          <span>Abandon this game?</span>
+          <button type="button" class="btn btn-sm btn-danger" (click)="confirmAbort()">Abort</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary" (click)="cancelAbort()">Continue</button>
+        </div>
+      } @else {
+        <button type="button" class="btn btn-outline-secondary game-abort" aria-label="Return to setup"
+          title="Return to setup" (click)="requestAbort()">
+          <i-bs name="x-lg"></i-bs>
+        </button>
+      }
     }
   </div>
   @if (logic(); as game) {
@@ -26,7 +34,7 @@
         <button class="btn btn-lg btn-primary" (click)="gameOverReason.set(undefined)">Play again</button>
       </div>
       } @else {
-        <app-setup (setUp)="start($event)"></app-setup>
+        <app-setup [initialNames]="setupPlayerNames()" (setUp)="start($event)"></app-setup>
       }
     </div>
   }

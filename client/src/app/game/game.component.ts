@@ -5,18 +5,32 @@ import { ToastService } from '../toast-container/toast.service';
 import { GameBoardComponent } from './game-board.component';
 import { SetupComponent } from '../setup/setup.component';
 import { NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.sass'],
   imports: [GameBoardComponent, SetupComponent, NgxBootstrapIconsModule],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('abortConfirmation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-0.5rem) scale(0.96)' }),
+        animate('180ms cubic-bezier(0.2, 0.75, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0) scale(1)' }))
+      ]),
+      transition(':leave', [
+        animate('140ms ease-in', style({ opacity: 0, transform: 'translateY(-0.25rem) scale(0.98)' }))
+      ])
+    ])
+  ]
 })
 export class GameComponent {
 
   readonly logic = signal<GameLogic | undefined>(undefined);
   readonly gameOverReason = signal<GameOverError | undefined>(undefined);
+  readonly confirmingAbort = signal(false);
+  readonly setupPlayerNames = signal(['', '', '']);
   readonly landingAnimationReady = signal(false);
   readonly landingTitleAnimationPlayed = signal(false);
   readonly returningToSetup = signal(false);
@@ -75,6 +89,7 @@ export class GameComponent {
       this.landingTitleAnimationPlayed.set(true);
       this.returningToSetup.set(false);
       this.gameOverReason.set(undefined);
+      this.setupPlayerNames.set([...setup.playerNames]);
       this.logic.set(new GameLogic(setup, this.injector));
     });
   }
@@ -85,9 +100,26 @@ export class GameComponent {
     }
     this.transitionTitle(() => {
       this.logic()?.destroy();
+      this.confirmingAbort.set(false);
       this.returningToSetup.set(true);
       this.logic.set(undefined);
     });
+  }
+
+  requestAbort(): void {
+    this.confirmingAbort.set(true);
+  }
+
+  cancelAbort(): void {
+    this.confirmingAbort.set(false);
+  }
+
+  confirmAbort(): void {
+    if (this.confirmingAbort() && this.logic()) {
+      this.end();
+    } else {
+      this.confirmingAbort.set(false);
+    }
   }
 
   private transitionTitle(update: () => void): void {
