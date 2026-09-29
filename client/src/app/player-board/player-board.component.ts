@@ -1,23 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { Player } from '../types';
 
 @Component({
   selector: 'app-player-board',
   templateUrl: './player-board.component.html',
-  styleUrls: ['./player-board.component.sass']
+  styleUrls: ['./player-board.component.sass'],
+  standalone: false
 })
-export class PlayerBoardComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-  @Input()
-  players: Player[] = [];
-
-  @Input()
-  activePlayer: Player | undefined;
-
-  disableOtherPlayers = false;
+export class PlayerBoardComponent {
+  readonly players = input<Player[]>([]);
+  readonly activePlayer = input<Player>();
+  readonly disableOtherPlayers = signal(false);
 }

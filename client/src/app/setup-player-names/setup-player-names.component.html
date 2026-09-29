@@ -6,7 +6,7 @@
       <div class="my-2">
         <div class="input-group">
           <input type="text" class="form-control" #nameInput [formControlName]="i" [placeholder]="'Player ' + (i + 1)">
-          <button class="btn btn-danger" [disabled]="nameControls.length <= minPlayers" (click)="removePlayer(i)">
+          <button class="btn btn-danger" [disabled]="nameControls.length <= minPlayers()" (click)="removePlayer(i)">
             <i-bs name="x-lg"></i-bs>
           </button>
         </div>
@@ -16,7 +16,7 @@
         </span>
       </div>
     </div>
-    <div *ngIf="nameControls.length < maxPlayers" class="d-flex align-items-center text-muted">
+    <div *ngIf="nameControls.length < maxPlayers()" class="d-flex align-items-center text-muted">
       <i-bs name="plus-square-dotted" class="me-3"></i-bs>
       <input class="form-control my-2" [placeholder]="'Player ' + (nameControls.length + 1)" role="input"
         (focusin)="addPlayer()">

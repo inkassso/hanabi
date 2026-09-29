@@ -18,12 +18,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/hanabi-client",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
             "assets": [
@@ -31,8 +31,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@fontsource/reenie-beanie/index.css",
+              "src/styles.sass"
             ],
             "scripts": []
           },
@@ -59,9 +60,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -70,30 +69,29 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "hanabi-client:build:production"
+              "buildTarget": "hanabi-client:build:production"
             },
             "development": {
-              "browserTarget": "hanabi-client:build:development"
+              "buildTarget": "hanabi-client:build:development"
             }
           },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
-            "browserTarget": "hanabi-client:build"
+            "buildTarget": "hanabi-client:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "sass",
             "assets": [
               "src/favicon.ico",
@@ -107,6 +105,5 @@
         }
       }
     }
-  },
-  "defaultProject": "hanabi-client"
+  }
 }

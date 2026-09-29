@@ -1,12 +1,12 @@
 <div class="outer">
-  <div class="rounded shadow card-wrapper" [class.flipped]="isFlipped"
-    [style.transition-delay.ms]="flipDelay * delayMultiplier">
-    <div class="p-2 w-100 h-100 card front" [class]="colorClasses">
-      <div *ngIf="card; else error" class="position-relative w-100 h-100 fs-4">
-        <strong class="position-absolute top-0 start-0">{{card.number}}</strong>
-        <strong class="position-absolute top-0 end-0">{{card.number}}</strong>
-        <strong class="position-absolute bottom-0 start-0">{{card.number}}</strong>
-        <strong class="position-absolute bottom-0 end-0">{{card.number}}</strong>
+  <div class="rounded shadow card-wrapper" [class.flipped]="isFlipped()"
+    [style.transition-delay.ms]="flipDelay() * delayMultiplier">
+    <div class="p-2 w-100 h-100 card front" [class]="colorClasses()">
+      <div *ngIf="card() as currentCard; else error" class="position-relative w-100 h-100 fs-4">
+        <strong class="position-absolute top-0 start-0">{{currentCard.number}}</strong>
+        <strong class="position-absolute top-0 end-0">{{currentCard.number}}</strong>
+        <strong class="position-absolute bottom-0 start-0">{{currentCard.number}}</strong>
+        <strong class="position-absolute bottom-0 end-0">{{currentCard.number}}</strong>
       </div>
       <ng-template #error>
         <div class="w-100 h-100 d-flex justify-content-center align-items-center back">

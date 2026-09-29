@@ -1,27 +1,18 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { GameSetup } from '../types/setup';
 
 @Component({
   selector: 'app-setup',
   templateUrl: './setup.component.html',
-  styleUrls: ['./setup.component.sass']
+  styleUrls: ['./setup.component.sass'],
+  standalone: false
 })
 export class SetupComponent {
 
-  @Input()
-  defaultRows: number = 3;
+  readonly defaultRows = input(3);
+  readonly setUp = output<GameSetup>();
 
-  @Output()
-  setUp = new EventEmitter<GameSetup>();
-
-  playerNames?: string[];
-
-  constructor() { }
-
-  nextStep(): void {
-    this.setUp.emit({
-      playerNames: this.playerNames!
-    });
+  nextStep(playerNames: string[]): void {
+    this.setUp.emit({ playerNames });
   }
-
 }

@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { Placement } from '@ng-bootstrap/ng-bootstrap';
 import { assert, Card, CardColor, cardHigh, CardNumber, colorToBootstrap, HeldCard, isColorful, Player, SingleColor, singleColors } from '../types';
 
@@ -15,6 +15,7 @@ const actionDelayMs = 1800; // the flip animation takes 0.8s
   selector: 'app-player-hand',
   templateUrl: './player-hand.component.html',
   styleUrls: ['./player-hand.component.sass'],
+  standalone: false,
   animations: [
     trigger('slideLeftLiftUp', [
       transition(':enter', [
@@ -35,22 +36,11 @@ const actionDelayMs = 1800; // the flip animation takes 0.8s
 })
 export class PlayerHandComponent {
 
-  constructor() { }
-
-  @Input()
-  player: Player | undefined;
-
-  @Input()
-  isActive = false;
-
-  @Input()
-  isDisabled = false;
-
-  @Output()
-  hintRequest = new EventEmitter<IHintRequest>();
-
-  @Output()
-  blockRequest = new EventEmitter<boolean>();
+  readonly player = input<Player>();
+  readonly isActive = input(false);
+  readonly isDisabled = input(false);
+  readonly hintRequest = output<IHintRequest>();
+  readonly blockRequest = output<boolean>();
 
   readonly isColorful = isColorful;
   readonly allSingleColors = singleColors;
@@ -61,11 +51,12 @@ export class PlayerHandComponent {
   ];
 
   notifyGiveHintRequest(hc: HeldCard, hint: SingleColor | CardNumber): void {
-    if (!this.player) {
+    const player = this.player();
+    if (!player) {
       throw new Error('Player is not defined.');
     }
-    this.hintRequest.next({
-      to: this.player,
+    this.hintRequest.emit({
+      to: player,
       card: hc.card,
       hint
     });
@@ -76,17 +67,17 @@ export class PlayerHandComponent {
   }
 
   getFlipDelay(i: number): number {
-    return this.isActive ? i : cardHigh - i;
+    return this.isActive() ? i : cardHigh - i;
   }
 
-  flipped?: HeldCard;
+  readonly flipped = signal<HeldCard | undefined>(undefined);
 
   playCard(hc: HeldCard): boolean {
-    const player = assert(this.player, 'Player');
+    const player = assert(this.player(), 'Player');
     if (isColorful(hc.card.color)) {
       // only flip the card, the player has yet to choose the color
-      this.flipped = hc;
-      this.blockRequest.next(!!hc);
+      this.flipped.set(hc);
+      this.blockRequest.emit(!!hc);
       return false;
     }
     this.delayWithCardFlip(hc, () => player.playCard(hc));
@@ -94,32 +85,33 @@ export class PlayerHandComponent {
   }
 
   discardCard(hc: HeldCard): void {
-    const player = assert(this.player, 'Player');
+    const player = assert(this.player(), 'Player');
     this.delayWithCardFlip(hc, () => player.discardCard(hc));
   }
 
   playFlippedColorful(color: SingleColor): void {
-    const player = assert(this.player, 'Player');
-    const flipped = assert(this.flipped, 'Flipped colorful');
+    const player = assert(this.player(), 'Player');
+    const flipped = assert(this.flipped(), 'Flipped colorful');
     if (!isColorful(flipped.card.color)) {
       throw new Error('Flipped card is not a colorful card');
     }
     player.playCard(flipped, color);
-    this.flipped = undefined;
-    this.blockRequest.next(false);
+    this.flipped.set(undefined);
+    this.blockRequest.emit(false);
   }
 
   isCardDisabled(hc: HeldCard): boolean {
-    return this.isDisabled || (!!this.flipped && hc !== this.flipped);
+    const flipped = this.flipped();
+    return this.isDisabled() || (!!flipped && hc !== flipped);
   }
 
-  private delayWithCardFlip(hc: HeldCard, action: () => any, delay: number = actionDelayMs): unknown {
-    this.flipped = hc;
+  private delayWithCardFlip(hc: HeldCard, action: () => void, delay: number = actionDelayMs): ReturnType<typeof setTimeout> {
+    this.flipped.set(hc);
     return setTimeout(() => {
       try {
         action();
       } finally {
-        this.flipped = undefined;
+        this.flipped.set(undefined);
       }
     }, delay);
   }

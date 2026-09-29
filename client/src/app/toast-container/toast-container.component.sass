@@ -1,0 +1,19 @@
+.toast-container
+  z-index: 1100
+  width: min(24rem, 100vw)
+
+.toast-message
+  border-left: .35rem solid
+  border-radius: .25rem
+  background: var(--bs-body-bg)
+  color: var(--bs-body-color)
+  padding: .85rem 1rem
+
+  &.error
+    border-color: var(--bs-danger)
+
+  &.info
+    border-color: var(--bs-info)
+
+  &.success
+    border-color: var(--bs-success)

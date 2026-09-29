@@ -1,11 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Card, cardHigh, colorToBootstrap, Fireworks, SingleColor, singleColors } from '../types';
 
 @Component({
   selector: 'app-firework-board',
   templateUrl: './firework-board.component.html',
   styleUrls: ['./firework-board.component.sass'],
+  standalone: false,
   animations: [
     trigger('throwDown', [
       transition(':enter', [
@@ -33,15 +34,12 @@ import { Card, cardHigh, colorToBootstrap, Fireworks, SingleColor, singleColors 
 })
 export class FireworkBoardComponent {
 
-  constructor() { }
-
-  @Input()
-  fireworks?: Fireworks;
+  readonly fireworks = input<Fireworks>();
 
   allSingleColors = singleColors;
 
   getCards(color: SingleColor): readonly Card[] {
-    return (this.fireworks && this.fireworks[color]) ?? [];
+    return this.fireworks()?.[color] ?? [];
   }
 
   isFireworkEmpty(color: SingleColor): boolean {

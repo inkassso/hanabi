@@ -1,3 +1,4 @@
+import { signal } from "@angular/core";
 import { Card, CardColor } from "./card";
 import { shuffle } from "./utils";
 
@@ -23,34 +24,38 @@ function createCards(): Card[] {
 }
 
 export class DrawDeck {
-  private readonly _cards: Card[];
+  private readonly _cards = signal<readonly Card[]>([]);
 
   get cards(): readonly Card[] {
-    return this._cards;
+    return this._cards();
   }
 
   constructor() {
     const cards = createCards();
-    this._cards = shuffle(cards);
-    console.debug(`Draw deck initialized with ${this._cards.length} cards and shuffled`);
+    this._cards.set(shuffle(cards));
+    console.debug(`Draw deck initialized with ${this._cards().length} cards and shuffled`);
   }
 
   hasCards(): boolean {
-    return this._cards.length !== 0;
+    return this._cards().length !== 0;
   }
 
   drawCard(): Card {
-    const card = this._cards.pop();
+    const cards = this._cards();
+    const card = cards[cards.length - 1];
     if (!card) {
       throw new Error('No more cards to draw, game over');
     }
+    this._cards.set(cards.slice(0, -1));
     return card;
   }
 
   drawCards(amount: number): Card[] {
-    if (this._cards.length < amount) {
-      throw new Error(`Not enough cards in deck to draw, currently having ${this._cards.length}, drawing ${amount}`);
+    const cards = this._cards();
+    if (cards.length < amount) {
+      throw new Error(`Not enough cards in deck to draw, currently having ${cards.length}, drawing ${amount}`);
     }
-    return this._cards.splice(-amount);
+    this._cards.set(cards.slice(0, -amount));
+    return cards.slice(-amount);
   }
 }

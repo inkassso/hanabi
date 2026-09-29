@@ -1,4 +1,4 @@
-import { BehaviorSubject } from "rxjs";
+import { computed, signal, WritableSignal } from "@angular/core";
 import { Card, CardNumber, cardNumbers, isColorful, SingleColor } from "./card";
 import { DiscardPile } from "./discard-pile";
 import { DrawDeck } from "./draw-deck";
@@ -15,36 +15,37 @@ export type Fireworks = {
 
 export class GameBoard {
 
-  private readonly _fireworks: WritableFireworks = {
+  private readonly _fireworks = signal<WritableFireworks>({
     blue: [],
     green: [],
     red: [],
     white: [],
     yellow: []
-  };
-
-  get fireworks(): Fireworks {
-    return this._fireworks;
-  }
+  });
+  readonly fireworks = computed(() => this._fireworks());
 
   private readonly initialNoteTokens: number;
   private readonly initialStormTokens: number;
 
-  readonly drawDeckDepleted$ = new BehaviorSubject<Player | undefined>(undefined);
-  readonly fireworkCompleted$ = new BehaviorSubject<SingleColor | undefined>(undefined);
+  readonly drawDeckDepleted = signal<Player | undefined>(undefined);
+  readonly fireworkCompletions = signal<readonly SingleColor[]>([]);
+  readonly noteTokens: WritableSignal<number>;
+  readonly stormTokens: WritableSignal<number>;
 
   constructor(
-    public noteTokens: number,
-    public stormTokens: number,
+    noteTokens: number,
+    stormTokens: number,
     private drawDeck: DrawDeck,
     private discardPile: DiscardPile
   ) {
+    this.noteTokens = signal(noteTokens);
+    this.stormTokens = signal(stormTokens);
     this.initialNoteTokens = noteTokens;
     this.initialStormTokens = stormTokens;
   }
 
   giveHint(from: Player, to: Player, card: Card, hint: SingleColor | CardNumber): void {
-    if (this.noteTokens <= 0) {
+    if (this.noteTokens() <= 0) {
       throw new Error(`You're out of note tokens. Either discard a card to receive a note token, or play one.`);
     }
     if (from === to) {
@@ -60,15 +61,15 @@ export class GameBoard {
 
     to.receiveHint(card, hint);
 
-    --this.noteTokens;
+    this.noteTokens.update(tokens => tokens - 1);
   }
 
   discardCard(player: Player, card: Card): void {
     player.removeCard(card);
     this.discardPile.discard(card);
     this.drawCard(player);
-    if (this.noteTokens < this.initialNoteTokens) {
-      ++this.noteTokens;
+    if (this.noteTokens() < this.initialNoteTokens) {
+      this.noteTokens.update(tokens => tokens + 1);
     }
   }
 
@@ -88,7 +89,11 @@ export class GameBoard {
       applicableColor = card.color;
     }
 
-    const firework = this._fireworks[applicableColor];
+    const fireworkColor = applicableColor;
+    if (!fireworkColor) {
+      throw new Error(`Player ${player.name} must choose the firework to apply the card to.`);
+    }
+    const firework = this._fireworks()[fireworkColor];
 
     let incorrectPlayReason: string | undefined;
     if (firework.length === 0) {
@@ -110,14 +115,20 @@ export class GameBoard {
 
     if (incorrectPlayReason) {
       console.log(`Card cannot be played:`, incorrectPlayReason);
-      if (--this.stormTokens == 0) {
+      const tokens = this.stormTokens() - 1;
+      this.stormTokens.set(tokens);
+      if (tokens === 0) {
         throw new StormTokensDepletedError(`All ${this.initialStormTokens} storm tokens have been depleted.`);
       }
     }
     else {
-      firework.push(card);
-      if (firework.length === cardNumbers.length) {
-        this.fireworkCompleted$.next(applicableColor);
+      const nextFirework = [...firework, card];
+      this._fireworks.update(fireworks => ({
+        ...fireworks,
+        [fireworkColor]: nextFirework
+      }));
+      if (nextFirework.length === cardNumbers.length) {
+        this.fireworkCompletions.update(colors => [...colors, fireworkColor]);
       }
     }
   }
@@ -132,7 +143,7 @@ export class GameBoard {
 
     if (!this.drawDeck.hasCards()) {
       console.log(`All cards have been used up, player ${player.name} is not getting a card anymore.`);
-      this.drawDeckDepleted$.next(player);
+      this.drawDeckDepleted.set(player);
     }
   }
 }

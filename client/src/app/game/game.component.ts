@@ -1,29 +1,61 @@
-import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Component, effect, inject, Injector, signal } from '@angular/core';
 import { Card, GameLogic, GameOverError, isColorful, Player, singleColors } from '../types';
 import { GameSetup } from '../types/setup';
+import { ToastService } from '../toast-container/toast.service';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.sass']
+  styleUrls: ['./game.component.sass'],
+  standalone: false
 })
 export class GameComponent {
 
-  logic?: GameLogic;
+  readonly logic = signal<GameLogic | undefined>(undefined);
+  readonly gameOverReason = signal<GameOverError | undefined>(undefined);
+  private readonly injector = inject(Injector);
+  private readonly notifications = effect(() => {
+    const game = this.logic();
+    if (!game) return;
 
-  constructor(private toastr: ToastrService) { }
+    const error = game.error();
+    if (error) {
+      this.toastr.error(error.message);
+      game.error.set(undefined);
+    }
+
+    const gameOver = game.gameOver();
+    if (gameOver) {
+      this.gameOverReason.set(gameOver);
+      game.gameOver.set(undefined);
+      this.end();
+    }
+
+    const depletedPlayer = game.drawDeckDepleted();
+    if (depletedPlayer) {
+      this.toastr.info(`Player ${depletedPlayer.name} depleted the draw deck.`, 'Last round');
+      game.drawDeckDepleted.set(undefined);
+    }
+
+    const finishedPlayer = game.gameFinished();
+    if (finishedPlayer) {
+      this.toastr.success(`Congratulations! Player ${finishedPlayer.name} finished the last firework!`, 'You won!');
+      game.gameFinished.set(undefined);
+      this.end();
+    }
+  });
+
+  constructor(private toastr: ToastService) { }
 
   getCardBackgroundClass(player: Player, card: Card): string {
-    if (player === this.logic?.activePlayer) {
+    if (player === this.logic()?.activePlayer()) {
       return '';
     }
     return card.color;
   }
 
   getCardDescription(player: Player, card: Card): string {
-    if (player === this.logic?.activePlayer) {
+    if (player === this.logic()?.activePlayer()) {
       return 'Card';
     }
     return `${card.color.replace(/^./, char => char.toUpperCase())} ${card.number}`;
@@ -32,37 +64,14 @@ export class GameComponent {
   readonly isColorful = isColorful;
   readonly allSingleColors = singleColors;
 
-  private subscriptions: Subscription[] = [];
-  gameOverReason: GameOverError | undefined;
-
   start(setup: GameSetup): void {
-    this.logic = new GameLogic(setup);
-    this.subscriptions = [
-      this.logic.error$.subscribe(e => e && this.toastr.error(e.message)),
-      this.logic.gameOver$.subscribe(e => {
-        this.gameOverReason = e;
-        if (e) {
-          this.end();
-        }
-      }),
-      this.logic.drawDeckDepleted$.subscribe(player => {
-        if (player) {
-          this.toastr.info(`Player ${player.name} depleted the draw deck.`, 'Last round');
-        }
-      }),
-      this.logic.gameFinished$.subscribe(player => {
-        if (player) {
-          this.toastr.success(`Congratulations! Player ${player.name} finished the last firework!`, 'You won!');
-          this.end();
-        }
-      })
-    ];
+    this.end();
+    this.gameOverReason.set(undefined);
+    this.logic.set(new GameLogic(setup, this.injector));
   }
 
   end(): void {
-    for (const sub of this.subscriptions) {
-      sub.unsubscribe();
-    }
-    this.logic = undefined;
+    this.logic()?.destroy();
+    this.logic.set(undefined);
   }
 }

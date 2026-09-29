@@ -1,9 +1,9 @@
-<ng-container *ngIf="player; else loading">
-  <h4>{{ player.name }}</h4>
+<ng-container *ngIf="player() as currentPlayer; else loading">
+  <h4>{{ currentPlayer.name }}</h4>
   <div class="d-flex flex-column position-relative hand">
-    <div *ngFor="let hc of player.cards; let i = index" class="card-wrapper" [class.flipped]="hc === flipped"
+    <div *ngFor="let hc of currentPlayer.cards(); let i = index" class="card-wrapper" [class.flipped]="hc === flipped()"
       @slideLeftLiftUp>
-      <app-card [card]="hc.card" [isFlipped]="isActive && hc !== flipped" [flipDelay]="getFlipDelay(i)"
+      <app-card [card]="hc.card" [isFlipped]="isActive() && hc !== flipped()" [flipDelay]="getFlipDelay(i)"
         [ngbPopover]="popContent" [popoverTitle]="popTitle" popoverClass="w-200 shadow" autoClose="outside"
         [disablePopover]="isCardDisabled(hc)" [placement]="popoverPlacement" triggers="manual" #popover="ngbPopover"
         (click)="popover.open()" [attr.role]="isCardDisabled(hc) ? undefined : 'button'">
@@ -11,8 +11,8 @@
 
       <ng-template #popTitle>
         <div [ngSwitch]="true" class="d-flex justify-content-around align-items-center">
-          <ng-container *ngSwitchCase="isActive" [ngSwitch]="true">
-            <span *ngSwitchCase="hc === flipped && isColorful(hc.card.color)">Select Firework Color</span>
+          <ng-container *ngSwitchCase="isActive()" [ngSwitch]="true">
+            <span *ngSwitchCase="hc === flipped() && isColorful(hc.card.color)">Select Firework Color</span>
             <span *ngSwitchDefault>Select Action</span>
           </ng-container>
           <span *ngSwitchDefault>Give Hint</span>
@@ -20,8 +20,8 @@
       </ng-template>
       <ng-template #popContent>
         <div class="d-flex flex-row justify-content-around align-items-center" [ngSwitch]="true">
-          <ng-container *ngSwitchCase="isActive" [ngSwitch]="true">
-            <div *ngSwitchCase="hc === flipped && isColorful(hc.card.color)" class="d-flex flex-column">
+          <ng-container *ngSwitchCase="isActive()" [ngSwitch]="true">
+            <div *ngSwitchCase="hc === flipped() && isColorful(hc.card.color)" class="d-flex flex-column">
               <!-- TODO show only colors which are applicable, error otherwise -->
               <button *ngFor="let color of allSingleColors" class="btn btn-sm action" [class]="getButtonClass(color)"
                 (click)="playFlippedColorful(color); popover.close()">
@@ -57,13 +57,13 @@
         </div>
       </ng-template>
 
-      <div *ngIf="isActive && hc.hasHints"
+      <div *ngIf="isActive() && hc.hasHints()"
         class="d-flex flex-column justify-content-around align-items-center shadow position-absolute p-3 fs-5 sticky-note">
         <strong>
-          <ng-container *ngIf="hc.colorHinted as color">{{color}}</ng-container>
+          <ng-container *ngIf="hc.colorHinted() as color">{{color}}</ng-container>
         </strong>
         <strong>
-          <ng-container *ngIf="hc.numberHinted as number">{{number}}</ng-container>
+          <ng-container *ngIf="hc.numberHinted() as number">{{number}}</ng-container>
         </strong>
       </div>
     </div>

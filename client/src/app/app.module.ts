@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { checkCircle, gripHorizontal, NgxBootstrapIconsModule, plusSquareDotted, xLg } from 'ngx-bootstrap-icons';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastContainerComponent } from './toast-container/toast-container.component';
 import { AppComponent } from './app.component';
 import { CardComponent } from './card/card.component';
 import { FireworkBoardComponent } from './firework-board/firework-board.component';
@@ -32,19 +32,18 @@ const icons = {
     PlayerHandComponent,
     PlayerBoardComponent,
     SetupPlayerNamesComponent,
-    SetupComponent
+    SetupComponent,
+    ToastContainerComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     NgbModule,
-    ToastrModule.forRoot(),
     BrowserAnimationsModule,
     NgxBootstrapIconsModule.pick(icons),
     ReactiveFormsModule,
     DragDropModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
