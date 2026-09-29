@@ -1,6 +1,6 @@
 # HanabiClient
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.6.
+This project uses Angular 22 and [Angular CLI](https://github.com/angular/angular-cli).
 
 ## Development server
 
@@ -16,7 +16,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test` to execute the unit tests with Vitest.
 
 ## Running end-to-end tests
 

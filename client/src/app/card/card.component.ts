@@ -5,7 +5,6 @@ import { Card, CardColor, colorToBootstrap } from '../types';
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.sass'],
-  standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardComponent {

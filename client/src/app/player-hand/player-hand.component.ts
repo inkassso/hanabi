@@ -1,6 +1,8 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { Placement } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { CardComponent } from '../card/card.component';
 import { assert, Card, CardColor, cardHigh, CardNumber, colorToBootstrap, HeldCard, isColorful, Player, SingleColor, singleColors } from '../types';
 
 export interface IHintRequest {
@@ -15,7 +17,8 @@ const actionDelayMs = 1800; // the flip animation takes 0.8s
   selector: 'app-player-hand',
   templateUrl: './player-hand.component.html',
   styleUrls: ['./player-hand.component.sass'],
-  standalone: false,
+  imports: [NgbPopoverModule, CardComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('slideLeftLiftUp', [
       transition(':enter', [

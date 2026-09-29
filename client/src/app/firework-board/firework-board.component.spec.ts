@@ -8,7 +8,7 @@ describe(FireworkBoardComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FireworkBoardComponent]
+      imports: [FireworkBoardComponent]
     })
       .compileComponents();
   });

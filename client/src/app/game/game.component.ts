@@ -1,13 +1,16 @@
-import { Component, effect, inject, Injector, signal } from '@angular/core';
-import { Card, GameLogic, GameOverError, isColorful, Player, singleColors } from '../types';
+import { ChangeDetectionStrategy, Component, effect, inject, Injector, signal } from '@angular/core';
+import { GameLogic, GameOverError } from '../types';
 import { GameSetup } from '../types/setup';
 import { ToastService } from '../toast-container/toast.service';
+import { GameBoardComponent } from './game-board.component';
+import { SetupComponent } from '../setup/setup.component';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.sass'],
-  standalone: false
+  imports: [GameBoardComponent, SetupComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameComponent {
 
@@ -46,23 +49,6 @@ export class GameComponent {
   });
 
   constructor(private toastr: ToastService) { }
-
-  getCardBackgroundClass(player: Player, card: Card): string {
-    if (player === this.logic()?.activePlayer()) {
-      return '';
-    }
-    return card.color;
-  }
-
-  getCardDescription(player: Player, card: Card): string {
-    if (player === this.logic()?.activePlayer()) {
-      return 'Card';
-    }
-    return `${card.color.replace(/^./, char => char.toUpperCase())} ${card.number}`;
-  }
-
-  readonly isColorful = isColorful;
-  readonly allSingleColors = singleColors;
 
   start(setup: GameSetup): void {
     this.end();

@@ -5,7 +5,6 @@ import { ToastService } from './toast.service';
   selector: 'app-toast-container',
   templateUrl: './toast-container.component.html',
   styleUrls: ['./toast-container.component.sass'],
-  standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToastContainerComponent {

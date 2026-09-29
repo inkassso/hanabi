@@ -1,13 +1,16 @@
 <div class="toast-container position-fixed top-0 end-0 p-3" aria-live="polite" aria-atomic="true">
-  <div *ngFor="let toast of toastService.messages()" class="toast-message shadow mb-2"
-    [class]="toast.type" role="status">
+  @for (toast of toastService.messages(); track toast.id) {
+  <div class="toast-message shadow mb-2" [class]="toast.type" role="status">
     <div class="d-flex justify-content-between align-items-start">
       <div>
-        <strong *ngIf="toast.title">{{toast.title}}</strong>
+        @if (toast.title) {
+          <strong>{{toast.title}}</strong>
+        }
         <div>{{toast.message}}</div>
       </div>
       <button type="button" class="btn-close ms-3" aria-label="Close"
         (click)="toastService.dismiss(toast.id)"></button>
     </div>
   </div>
+  }
 </div>

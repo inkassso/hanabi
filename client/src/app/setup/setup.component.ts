@@ -1,11 +1,13 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { GameSetup } from '../types/setup';
+import { SetupPlayerNamesComponent } from '../setup-player-names/setup-player-names.setup.component';
 
 @Component({
   selector: 'app-setup',
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.sass'],
-  standalone: false
+  imports: [SetupPlayerNamesComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SetupComponent {
 

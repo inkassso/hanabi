@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --watch=false --browsers=ChromeHeadless",
+    "test": "ng test --watch=false",
     "test:w": "ng test --watch",
     "prebuild:ghp": "scripts/gen.sh",
     "build:ghp": "ng build --base-href https://inkassso.github.io/hanabi/",
@@ -23,7 +23,6 @@
     "@angular/forms": "^22.2.0",
     "@angular/localize": "^22.2.0",
     "@angular/platform-browser": "^22.2.0",
-    "@angular/platform-browser-dynamic": "^22.2.0",
     "@angular/router": "^22.2.0",
     "@fontsource/reenie-beanie": "^4.5.8",
     "@forevolve/bootstrap-dark": "^2.1.0",
@@ -32,23 +31,17 @@
     "bootstrap": "^5.1.3",
     "ngx-bootstrap-icons": "^1.8.1",
     "rxjs": "^7.8.2",
-    "tslib": "^2.8.1",
-    "zone.js": "~0.16.0"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@angular/build": "^22.2.0",
     "@angular/cli": "^22.2.0",
     "@angular/compiler-cli": "^22.2.0",
-    "@types/jasmine": "^5.1.0",
     "@types/node": "^24.0.0",
     "angular-cli-ghpages": "^1.0.0",
-    "jasmine-core": "^5.8.0",
-    "karma": "^6.4.4",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-coverage": "^2.2.1",
-    "karma-jasmine": "^5.1.0",
-    "karma-jasmine-html-reporter": "^2.1.0",
     "postcss": "^8.5.28",
-    "typescript": "~6.0.0"
+    "typescript": "~6.0.0",
+    "vitest": "^5.0.2",
+    "jsdom": "^29.0.0"
   }
 }

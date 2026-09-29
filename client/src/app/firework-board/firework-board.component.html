@@ -1,9 +1,15 @@
 <h3>Fireworks</h3>
 <div class="w-100 my-3 d-flex flex-wrap justify-content-around board">
-  <div *ngFor="let color of allSingleColors" class="d-flex justify-content-center align-items-center m-2 firework"
+  @for (color of allSingleColors; track color) {
+  <div class="d-flex justify-content-center align-items-center m-2 firework"
     [class.card]="isFireworkEmpty(color)" [class.finished]="isFireworkFinished(color)"
     [class]="getBackgroundClass(color)">
-    <app-card *ngFor="let card of getCards(color)" [card]="card" role="button" @throwDown></app-card>
-    <i-bs *ngIf="isFireworkFinished(color)" name="check-circle" width="2rem" height="2rem" @popUp></i-bs>
+    @for (card of getCards(color); track card) {
+      <app-card [card]="card" role="button" @throwDown></app-card>
+    }
+    @if (isFireworkFinished(color)) {
+      <i-bs name="check-circle" width="2rem" height="2rem" @popUp></i-bs>
+    }
   </div>
+  }
 </div>

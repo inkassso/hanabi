@@ -8,7 +8,7 @@ describe(PlayerHandComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PlayerHandComponent]
+      imports: [PlayerHandComponent]
     })
       .compileComponents();
   });

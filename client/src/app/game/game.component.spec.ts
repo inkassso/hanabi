@@ -8,7 +8,7 @@ describe(GameComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GameComponent],
+      imports: [GameComponent]
     })
       .compileComponents();
   });
@@ -21,5 +21,9 @@ describe(GameComponent.name, () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('keeps the setup screen available before a game starts', () => {
+    expect(fixture.nativeElement.querySelector('app-setup')).toBeTruthy();
   });
 });

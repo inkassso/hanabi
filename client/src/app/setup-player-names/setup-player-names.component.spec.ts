@@ -8,7 +8,7 @@ describe(SetupPlayerNamesComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SetupPlayerNamesComponent]
+      imports: [SetupPlayerNamesComponent]
     })
       .compileComponents();
   });
@@ -21,5 +21,15 @@ describe(SetupPlayerNamesComponent.name, () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('requires player names to be non-empty and unique', () => {
+    component.playerNames.set({ names: ['Alice', ''] });
+    expect(component.playerForm.names[0]().valid()).toBe(true);
+    expect(component.playerForm.names[1]().invalid()).toBe(true);
+
+    component.playerNames.set({ names: ['Alice', 'Alice'] });
+    expect(component.playerForm.names[0]().invalid()).toBe(true);
+    expect(component.playerForm.names[1]().invalid()).toBe(true);
   });
 });

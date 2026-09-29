@@ -1,12 +1,21 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { checkCircle, gripHorizontal, NgxBootstrapIconsModule, plusSquareDotted, xLg } from 'ngx-bootstrap-icons';
+import { AppComponent } from './app/app.component';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+const icons = {
+  checkCircle,
+  xLg,
+  gripHorizontal,
+  plusSquareDotted
+};
 
-if (environment.production) {
-  enableProdMode();
-}
-
-platformBrowserDynamic().bootstrapModule(AppModule)
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideZonelessChangeDetection(),
+    provideAnimationsAsync(),
+    importProvidersFrom(NgxBootstrapIconsModule.pick(icons))
+  ]
+})
   .catch(err => console.error(err));

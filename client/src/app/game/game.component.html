@@ -1,32 +1,20 @@
 <h1>Hanabi</h1>
-<div *ngIf="logic() as game; else noGame" class="w-100 h-100">
-  <div class="d-flex justify-content-center">
-    <div class=" mx-5 tokens">
-      <div class="note">Note tokens: <strong>{{game.noteTokens()}}</strong></div>
-      <div class="storm">Storm tokens: <strong>{{game.stormTokens()}}</strong></div>
-    </div>
-    <div class="mx-5 draw-discard-cards">
-      <div class="draw-deck">Draw Deck: <strong>{{game.drawDeck.cards.length}}</strong></div>
-      <div class="discard-pile">Discard Pile: <strong>{{game.discardPile.cards().length}}</strong></div>
-    </div>
-  </div>
-  <app-firework-board [fireworks]="game.gameBoard.fireworks()" class="my-3"></app-firework-board>
-  <hr />
-  <app-player-board [players]="game.players" [activePlayer]="game.activePlayer()"></app-player-board>
-</div>
-
-<ng-template #noGame>
+@if (logic(); as game) {
+  @defer (when game) {
+    <app-game-board [game]="game"></app-game-board>
+  } @loading {
+    <div class="d-flex justify-content-center p-5" role="status">Loading game...</div>
+  }
+} @else {
   <div class="flex-grow-1 d-flex flex-column justify-content-center">
     <div class="d-flex flex-column align-items-center">
-      <ng-container *ngIf="gameOverReason(); else landingPage">
+      @if (gameOverReason(); as gameOver) {
         <h3>Game over</h3>
-        <p>{{gameOverReason()?.message}}</p>
+        <p>{{gameOver.message}}</p>
         <button class="btn btn-lg btn-primary" (click)="gameOverReason.set(undefined)">Play again</button>
-      </ng-container>
-
-      <ng-template #landingPage>
+      } @else {
         <app-setup (setUp)="start($event)"></app-setup>
-      </ng-template>
+      }
     </div>
   </div>
-</ng-template>
+}
